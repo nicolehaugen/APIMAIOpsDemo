@@ -47,6 +47,135 @@
     }
   ],
   "paths": {
+    "/stats/greetings": {
+      "get": {
+        "summary": "Get greeting statistics",
+        "description": "Returns statistics about greeting usage including total count, most popular greetings, and language distribution.\n\nThis endpoint provides analytical data for monitoring greeting service usage.\n",
+        "operationId": "getGreetingStats",
+        "tags": [
+          "admin",
+          "greetings"
+        ],
+        "security": [
+          {
+            "OAuth2": [
+              "admin"
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "Start date for the statistics period",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-09-01"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "End date for the statistics period",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-09-11"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalGreetings": {
+                      "type": "integer",
+                      "description": "Total number of greetings generated",
+                      "example": 1250
+                    },
+                    "uniqueUsers": {
+                      "type": "integer",
+                      "description": "Number of unique users who received greetings",
+                      "example": 738
+                    },
+                    "languageDistribution": {
+                      "type": "object",
+                      "description": "Distribution of greetings by language",
+                      "additionalProperties": {
+                        "type": "integer"
+                      },
+                      "example": {
+                        "en": 850,
+                        "es": 200,
+                        "fr": 120,
+                        "de": 60,
+                        "ja": 20
+                      }
+                    },
+                    "period": {
+                      "type": "object",
+                      "properties": {
+                        "start": {
+                          "type": "string",
+                          "format": "date",
+                          "example": "2025-09-01"
+                        },
+                        "end": {
+                          "type": "string",
+                          "format": "date",
+                          "example": "2025-09-11"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - admin access required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "Admin access required"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/hello": {
       "get": {
         "summary": "Get a generic hello world greeting",
