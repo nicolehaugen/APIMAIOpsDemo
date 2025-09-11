@@ -1,0 +1,29 @@
+{
+  "properties": {
+    "path": "helloworld",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "contact": {
+      "email": "support@example.com",
+      "name": "API Support Team",
+      "url": "https://example.com/support"
+    },
+    "description": "# Hello World API\n\nThis is a simple Hello World API that demonstrates the key features of OpenAPI 3.0.\n\n## Features demonstrated in this example\n- Multiple server environments (development, staging, production)\n- OAuth2 security definitions\n- Request and response examples\n- Comprehensive documentation\n- Schema definitions\n\n## Authentication\nThis API uses OAuth 2.0 for authentication. See the Security section for more details.\n",
+    "isCurrent": true,
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "displayName": "Hello World API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://dev-api.example.com/v1",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true,
+    "termsOfServiceUrl": "https://example.com/terms/"
+  }
+}
