@@ -1,0 +1,482 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Hello World API",
+    "description": "# Hello World API\n\nThis is a simple Hello World API that demonstrates the key features of OpenAPI 3.0.\n\n## Features demonstrated in this example\n- Multiple server environments (development, staging, production)\n- OAuth2 security definitions\n- Request and response examples\n- Comprehensive documentation\n- Schema definitions\n\n## Authentication\nThis API uses OAuth 2.0 for authentication. See the Security section for more details.\n",
+    "termsOfService": "https://example.com/terms/",
+    "contact": {
+      "name": "API Support Team",
+      "url": "https://example.com/support",
+      "email": "support@example.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-nicolela.ais-team.net/helloworld"
+    }
+  ],
+  "paths": {
+    "/hello": {
+      "get": {
+        "tags": [
+          "greetings"
+        ],
+        "summary": "Get a generic hello world greeting",
+        "description": "Returns a simple hello world greeting message.\n\nThis endpoint requires no parameters and will return a standard greeting.\n",
+        "operationId": "getHello",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Greeting"
+                },
+                "example": {
+                  "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                  "message": "Hello, World!",
+                  "timestamp": "2025-09-11T12:00:00.0000000+00:00"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 401,
+                  "message": "Authentication required"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 500,
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hello/{name}": {
+      "get": {
+        "tags": [
+          "greetings"
+        ],
+        "summary": "Get a personalized hello greeting",
+        "description": "Returns a personalized greeting using the provided name.\n\nThis endpoint demonstrates path parameters in OpenAPI.\n",
+        "operationId": "getPersonalizedHello",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Name to be greeted",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "John"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Greeting"
+                },
+                "example": {
+                  "id": "c47bc13a-62dc-4790-b122-0e02b2c3d122",
+                  "message": "Hello, John!",
+                  "timestamp": "2025-09-11T12:05:30.0000000+00:00"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Bad request parameter"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Name not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 404,
+                  "message": "Name not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Bad request parameter"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/greetings/custom": {
+      "post": {
+        "tags": [
+          "greetings"
+        ],
+        "summary": "Create a custom greeting",
+        "description": "Creates a custom greeting with the provided parameters.\n\nThis endpoint demonstrates request body handling in OpenAPI.\n",
+        "operationId": "createCustomGreeting",
+        "requestBody": {
+          "description": "Greeting request object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GreetingRequest"
+              },
+              "example": {
+                "name": "Maria",
+                "language": "es"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Greeting created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Greeting"
+                },
+                "example": {
+                  "id": "a97ec10a-18cc-5372-a123-1e02b2c3d789",
+                  "message": "¡Hola, Maria!",
+                  "timestamp": "2025-09-11T12:10:15.0000000+00:00"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Invalid request parameters"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Bad request parameter"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - insufficient permissions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "Insufficient permissions to create greetings"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Bad request parameter"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/greetings": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "List all greetings (admin only)",
+        "description": "Returns all greetings in the system.\n\nThis endpoint demonstrates admin-level authorization.\n",
+        "operationId": "listAllGreetings",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "minimum": 1.0,
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "maximum": 100.0,
+              "minimum": 1.0,
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Filter by language",
+            "schema": {
+              "enum": [
+                "en",
+                "es",
+                "fr",
+                "de",
+                "ja"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of greetings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Greeting"
+                  }
+                },
+                "example": [
+                  {
+                    "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                    "message": "Hello, World!",
+                    "timestamp": "2025-09-11T12:00:00.0000000+00:00"
+                  },
+                  {
+                    "id": "c47bc13a-62dc-4790-b122-0e02b2c3d122",
+                    "message": "Hello, John!",
+                    "timestamp": "2025-09-11T12:05:30.0000000+00:00"
+                  },
+                  {
+                    "id": "a97ec10a-18cc-5372-a123-1e02b2c3d789",
+                    "message": "¡Hola, Maria!",
+                    "timestamp": "2025-09-11T12:10:15.0000000+00:00"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Bad request parameter"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - admin access required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 403,
+                  "message": "Admin access required"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "code": 400,
+                  "message": "Bad request parameter"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "required": [
+          "code",
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "Error code",
+            "format": "int32",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message",
+            "example": "Bad request parameter"
+          }
+        }
+      },
+      "Greeting": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the greeting",
+            "format": "uuid",
+            "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+          },
+          "message": {
+            "type": "string",
+            "description": "The greeting message",
+            "example": "Hello, World!"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "When the greeting was created",
+            "format": "date-time",
+            "example": "2025-09-11T12:00:00.0000000+00:00"
+          }
+        }
+      },
+      "GreetingRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name to be greeted",
+            "example": "John"
+          },
+          "language": {
+            "enum": [
+              "en",
+              "es",
+              "fr",
+              "de",
+              "ja"
+            ],
+            "type": "string",
+            "description": "Language code for localization",
+            "default": "en",
+            "example": "en"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      },
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": [ ]
+    },
+    {
+      "apiKeyQuery": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "greetings",
+      "description": "Operations for greeting messages"
+    },
+    {
+      "name": "admin",
+      "description": "Administrative operations (requires elevated privileges)"
+    }
+  ]
+}
