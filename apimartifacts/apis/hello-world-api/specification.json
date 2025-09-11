@@ -1,9 +1,9 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.0",
   "info": {
     "title": "Hello World API",
     "description": "# Hello World API\n\nThis is a simple Hello World API that demonstrates the key features of OpenAPI 3.0.\n\n## Features demonstrated in this example\n- Multiple server environments (development, staging, production)\n- OAuth2 security definitions\n- Request and response examples\n- Comprehensive documentation\n- Schema definitions\n\n## Authentication\nThis API uses OAuth 2.0 for authentication. See the Security section for more details.\n",
-    "termsOfService": "https://example.com/terms/",
+    "version": "1.0.0",
     "contact": {
       "name": "API Support Team",
       "url": "https://example.com/support",
@@ -13,22 +13,55 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0"
+    "termsOfService": "https://example.com/terms/"
   },
   "servers": [
     {
-      "url": "https://api-nicolela.ais-team.net/helloworld"
+      "url": "https://dev-api.example.com/v1",
+      "description": "Development server"
+    },
+    {
+      "url": "https://staging-api.example.com/v1",
+      "description": "Staging server"
+    },
+    {
+      "url": "https://api.example.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": [
+        "read:greetings"
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "greetings",
+      "description": "Operations for greeting messages"
+    },
+    {
+      "name": "admin",
+      "description": "Administrative operations (requires elevated privileges)"
     }
   ],
   "paths": {
     "/hello": {
       "get": {
-        "tags": [
-          "greetings"
-        ],
         "summary": "Get a generic hello world greeting",
         "description": "Returns a simple hello world greeting message.\n\nThis endpoint requires no parameters and will return a standard greeting.\n",
         "operationId": "getHello",
+        "tags": [
+          "greetings"
+        ],
+        "security": [
+          {
+            "OAuth2": [
+              "read:greetings"
+            ]
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -40,7 +73,7 @@
                 "example": {
                   "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                   "message": "Hello, World!",
-                  "timestamp": "2025-09-11T12:00:00.0000000+00:00"
+                  "timestamp": "2025-09-11T12:00:00Z"
                 }
               }
             }
@@ -78,12 +111,19 @@
     },
     "/hello/{name}": {
       "get": {
-        "tags": [
-          "greetings"
-        ],
         "summary": "Get a personalized hello greeting",
         "description": "Returns a personalized greeting using the provided name.\n\nThis endpoint demonstrates path parameters in OpenAPI.\n",
         "operationId": "getPersonalizedHello",
+        "tags": [
+          "greetings"
+        ],
+        "security": [
+          {
+            "OAuth2": [
+              "read:greetings"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "name",
@@ -107,7 +147,7 @@
                 "example": {
                   "id": "c47bc13a-62dc-4790-b122-0e02b2c3d122",
                   "message": "Hello, John!",
-                  "timestamp": "2025-09-11T12:05:30.0000000+00:00"
+                  "timestamp": "2025-09-11T12:05:30Z"
                 }
               }
             }
@@ -118,10 +158,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "code": 400,
-                  "message": "Bad request parameter"
                 }
               }
             }
@@ -146,10 +182,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "code": 400,
-                  "message": "Bad request parameter"
                 }
               }
             }
@@ -159,14 +191,22 @@
     },
     "/greetings/custom": {
       "post": {
-        "tags": [
-          "greetings"
-        ],
         "summary": "Create a custom greeting",
         "description": "Creates a custom greeting with the provided parameters.\n\nThis endpoint demonstrates request body handling in OpenAPI.\n",
         "operationId": "createCustomGreeting",
+        "tags": [
+          "greetings"
+        ],
+        "security": [
+          {
+            "OAuth2": [
+              "write:greetings"
+            ]
+          }
+        ],
         "requestBody": {
           "description": "Greeting request object",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -190,7 +230,7 @@
                 "example": {
                   "id": "a97ec10a-18cc-5372-a123-1e02b2c3d789",
                   "message": "¡Hola, Maria!",
-                  "timestamp": "2025-09-11T12:10:15.0000000+00:00"
+                  "timestamp": "2025-09-11T12:10:15Z"
                 }
               }
             }
@@ -215,10 +255,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "code": 400,
-                  "message": "Bad request parameter"
                 }
               }
             }
@@ -243,10 +279,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "code": 400,
-                  "message": "Bad request parameter"
                 }
               }
             }
@@ -256,47 +288,57 @@
     },
     "/admin/greetings": {
       "get": {
-        "tags": [
-          "admin"
-        ],
         "summary": "List all greetings (admin only)",
         "description": "Returns all greetings in the system.\n\nThis endpoint demonstrates admin-level authorization.\n",
         "operationId": "listAllGreetings",
+        "tags": [
+          "admin"
+        ],
+        "security": [
+          {
+            "OAuth2": [
+              "admin"
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "page",
             "in": "query",
             "description": "Page number for pagination",
+            "required": false,
             "schema": {
-              "minimum": 1.0,
               "type": "integer",
-              "default": 1
+              "default": 1,
+              "minimum": 1
             }
           },
           {
             "name": "pageSize",
             "in": "query",
             "description": "Number of items per page",
+            "required": false,
             "schema": {
-              "maximum": 100.0,
-              "minimum": 1.0,
               "type": "integer",
-              "default": 10
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
             }
           },
           {
             "name": "language",
             "in": "query",
             "description": "Filter by language",
+            "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "en",
                 "es",
                 "fr",
                 "de",
                 "ja"
-              ],
-              "type": "string"
+              ]
             }
           }
         ],
@@ -315,17 +357,17 @@
                   {
                     "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                     "message": "Hello, World!",
-                    "timestamp": "2025-09-11T12:00:00.0000000+00:00"
+                    "timestamp": "2025-09-11T12:00:00Z"
                   },
                   {
                     "id": "c47bc13a-62dc-4790-b122-0e02b2c3d122",
                     "message": "Hello, John!",
-                    "timestamp": "2025-09-11T12:05:30.0000000+00:00"
+                    "timestamp": "2025-09-11T12:05:30Z"
                   },
                   {
                     "id": "a97ec10a-18cc-5372-a123-1e02b2c3d789",
                     "message": "¡Hola, Maria!",
-                    "timestamp": "2025-09-11T12:10:15.0000000+00:00"
+                    "timestamp": "2025-09-11T12:10:15Z"
                   }
                 ]
               }
@@ -337,10 +379,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "code": 400,
-                  "message": "Bad request parameter"
                 }
               }
             }
@@ -365,10 +403,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "example": {
-                  "code": 400,
-                  "message": "Bad request parameter"
                 }
               }
             }
@@ -378,18 +412,42 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 authentication",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://auth.example.com/oauth2/authorize",
+            "scopes": {
+              "read:greetings": "Read access to greeting endpoints",
+              "write:greetings": "Write access to greeting endpoints"
+            }
+          },
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.example.com/oauth2/authorize",
+            "tokenUrl": "https://auth.example.com/oauth2/token",
+            "scopes": {
+              "read:greetings": "Read access to greeting endpoints",
+              "write:greetings": "Write access to greeting endpoints",
+              "admin": "Full administrative access"
+            }
+          }
+        }
+      }
+    },
     "schemas": {
       "ErrorResponse": {
+        "type": "object",
         "required": [
           "code",
           "message"
         ],
-        "type": "object",
         "properties": {
           "code": {
             "type": "integer",
-            "description": "Error code",
             "format": "int32",
+            "description": "Error code",
             "example": 400
           },
           "message": {
@@ -400,15 +458,15 @@
         }
       },
       "Greeting": {
+        "type": "object",
         "required": [
           "message"
         ],
-        "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "description": "Unique identifier for the greeting",
             "format": "uuid",
+            "description": "Unique identifier for the greeting",
             "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
           },
           "message": {
@@ -418,9 +476,9 @@
           },
           "timestamp": {
             "type": "string",
-            "description": "When the greeting was created",
             "format": "date-time",
-            "example": "2025-09-11T12:00:00.0000000+00:00"
+            "description": "When the greeting was created",
+            "example": "2025-09-11T12:00:00Z"
           }
         }
       },
@@ -433,6 +491,9 @@
             "example": "John"
           },
           "language": {
+            "type": "string",
+            "description": "Language code for localization",
+            "example": "en",
             "enum": [
               "en",
               "es",
@@ -440,43 +501,10 @@
               "de",
               "ja"
             ],
-            "type": "string",
-            "description": "Language code for localization",
-            "default": "en",
-            "example": "en"
+            "default": "en"
           }
         }
       }
-    },
-    "securitySchemes": {
-      "apiKeyHeader": {
-        "type": "apiKey",
-        "name": "Ocp-Apim-Subscription-Key",
-        "in": "header"
-      },
-      "apiKeyQuery": {
-        "type": "apiKey",
-        "name": "subscription-key",
-        "in": "query"
-      }
     }
-  },
-  "security": [
-    {
-      "apiKeyHeader": [ ]
-    },
-    {
-      "apiKeyQuery": [ ]
-    }
-  ],
-  "tags": [
-    {
-      "name": "greetings",
-      "description": "Operations for greeting messages"
-    },
-    {
-      "name": "admin",
-      "description": "Administrative operations (requires elevated privileges)"
-    }
-  ]
+  }
 }
