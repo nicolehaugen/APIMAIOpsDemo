@@ -17,7 +17,7 @@
   },
   "servers": [
     {
-      "url": "https://dev-api.example.com/v1",
+      "url": "https://dev-api.example.com/v2",
       "description": "Development server"
     },
     {
