@@ -1,17 +1,13 @@
-<!--
-    IMPORTANT:
-    - Policy elements can appear only within the <inbound>, <outbound>, <backend> section elements.
-    - Only the <forward-request> policy element can appear within the <backend> section element.
-    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the <inbound> section element.
-    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the <outbound> section element.
-    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.
-    - To remove a policy, delete the corresponding policy statement from the policy document.
-    - Policies are applied in the order of their appearance, from the top down.
--->
 <policies>
-	<inbound />
-	<backend>
-		<forward-request />
-	</backend>
+	<inbound>
+		<validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
+			<openid-config url="https://login.microsoftonline.com/3bfb5be3-a37b-4bba-ae7a-4e853a5437b0/v2.0/.well-known/openid-configuration" />
+			<audiences>
+				<audience>api://f8583cf8-405d-4bd9-bbec-4c9de0e84c3b</audience>
+			</audiences>
+		</validate-jwt>
+	</inbound>
+	<backend />
 	<outbound />
+	<on-error />
 </policies>
