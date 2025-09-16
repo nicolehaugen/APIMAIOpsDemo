@@ -1,8 +1,8 @@
 {
   "properties": {
-    "scope": "/subscriptions/5e3e32e8-7f9f-482f-bf91-09ddc2538eab/resourceGroups/AIS-Infra-rg/providers/Microsoft.ApiManagement/service/nicolela-apim-qn7pekq5ad2cy/products/starter",
+    "scope": "/subscriptions/3cbad5b9-554a-4c70-abe0-effe2f9df1c6/resourceGroups/azureintegrationteam-apidemoenv/providers/Microsoft.ApiManagement/service/{API_MANAGEMENT_SERVICE_NAME}/products/starter",
     "allowTracing": false,
-    "ownerId": "/subscriptions/5e3e32e8-7f9f-482f-bf91-09ddc2538eab/resourceGroups/AIS-Infra-rg/providers/Microsoft.ApiManagement/service/nicolela-apim-qn7pekq5ad2cy/users/1",
+    "ownerId": "/subscriptions/3cbad5b9-554a-4c70-abe0-effe2f9df1c6/resourceGroups/azureintegrationteam-apidemoenv/providers/Microsoft.ApiManagement/service/{API_MANAGEMENT_SERVICE_NAME}/users/1",
     "state": "active"
   }
 }
