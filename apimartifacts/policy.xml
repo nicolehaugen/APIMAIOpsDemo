@@ -1,9 +1,9 @@
 <policies>
 	<inbound>
 		<validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
-			<openid-config url="https://login.microsoftonline.com/3bfb5be3-a37b-4bba-ae7a-4e853a5437b0/v2.0/.well-known/openid-configuration" />
+			<openid-config url="https://login.microsoftonline.com/{{TenantId}}/v2.0/.well-known/openid-configuration" />
 			<audiences>
-				<audience>api://f8583cf8-405d-4bd9-bbec-4c9de0e84c3b</audience>
+				<audience>api://{{ClientId}}</audience>
 			</audiences>
 		</validate-jwt>
 	</inbound>
