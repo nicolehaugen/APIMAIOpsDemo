@@ -1,4 +1,4 @@
-apimServiceName: {API_MANAGEMENT_SERVICE_NAME}
+apimServiceName: Prod-APIM-Demo
 namedValues:
   - name: HWMBackendUrl
     properties:
