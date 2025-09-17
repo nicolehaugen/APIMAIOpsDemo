@@ -1,6 +1,2 @@
 # Required: The name of your target APIM instance
 apimServiceName: {API_MANAGEMENT_SERVICE_NAME}
-
-# Override named values for production environment
-namedValues:
-  HelloWorldMinBackendUrl: "https://prod-api.example.com/v1"
