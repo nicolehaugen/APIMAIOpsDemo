@@ -4,3 +4,7 @@ namedValues:
     properties:
       displayName: HWMBackendUrl
       value: "https://api-prod.example.com/v1"
+  - name: NicoleTest
+    properties:
+      displayName: NicoleTest
+      value: "NicoleLeeHaugen"
