@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "NLHTest",
+    "secret": false,
+    "tags": [],
+    "value": "test"
+  }
+}
