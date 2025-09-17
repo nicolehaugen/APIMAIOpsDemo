@@ -3,6 +3,6 @@
     "displayName": "HWMBackendUrl",
     "secret": false,
     "tags": [],
-    "value": "https://api-staging.example.com/v1"
+    "value": "https://api-staging.example.com/v2"
   }
 }
