@@ -10,9 +10,9 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: ''
+  version: V2
 servers:
-  - url: https://staging-apim-demo.azure-api.net/helloworld
+  - url: https://staging-apim-demo.azure-api.net/helloworld/V2
 paths: { }
 components:
   securitySchemes:

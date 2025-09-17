@@ -2,6 +2,7 @@
   "properties": {
     "path": "helloworld",
     "apiRevision": "1",
+    "apiVersion": "V2",
     "apiVersionSetId": "/subscriptions/3cbad5b9-554a-4c70-abe0-effe2f9df1c6/resourceGroups/azureintegrationteam-apidemoenv/providers/Microsoft.ApiManagement/service/Staging-APIM-Demo/apiVersionSets/68cb33a559cafac540ca781c",
     "authenticationSettings": {},
     "contact": {
