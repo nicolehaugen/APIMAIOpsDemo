@@ -3,7 +3,7 @@ info:
   title: Echo API
   version: '1.0'
 servers:
-  - url: https://api-nicolela.ais-team.net/echo
+  - url: https://staging-apim-demo.azure-api.net/echo
 paths:
   /resource:
     get:
