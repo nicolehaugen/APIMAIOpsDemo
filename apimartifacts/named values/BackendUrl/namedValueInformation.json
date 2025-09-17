@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "BackendUrl",
+    "secret": false,
+    "tags": [],
+    "value": "https://api-staging.example.com/v1"
+  }
+}

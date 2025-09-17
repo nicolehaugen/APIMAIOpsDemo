@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "scope": "/subscriptions/3cbad5b9-554a-4c70-abe0-effe2f9df1c6/resourceGroups/azureintegrationteam-apidemoenv/providers/Microsoft.ApiManagement/service/Staging-APIM-Demo/products/unlimited",
+    "allowTracing": false,
+    "ownerId": "/subscriptions/3cbad5b9-554a-4c70-abe0-effe2f9df1c6/resourceGroups/azureintegrationteam-apidemoenv/providers/Microsoft.ApiManagement/service/Staging-APIM-Demo/users/1",
+    "state": "active"
+  }
+}

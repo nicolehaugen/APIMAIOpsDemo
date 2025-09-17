@@ -10,7 +10,7 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: '1.0'
 servers:
-  - url: https://api-nicolela.ais-team.net
+  - url: https://staging-apim-demo.azure-api.net
 paths:
   /pet:
     put:
@@ -421,9 +421,7 @@ paths:
             schema:
               type: string
               format: binary
-            examples:
-              default:
-                value: 
+            example: ''
       responses:
         '200':
           description: successful operation

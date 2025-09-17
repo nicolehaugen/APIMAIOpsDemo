@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: Hello World API Min
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/HelloWorldMin
+paths:
+  /hello:
+    get:
+      summary: Get a generic hello world greeting
+      description: Get a generic hello world greeting
+      operationId: getHello
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Hello, World!'
+              example:
+                message: 'Hello, World!'
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
