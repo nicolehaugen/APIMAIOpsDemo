@@ -1,7 +1,0 @@
-{
-  "properties": {
-    "displayName": "APIMResourceName",
-    "secret": false,
-    "value": "{API_MANAGEMENT_SERVICE_NAME}"
-  }
-}
