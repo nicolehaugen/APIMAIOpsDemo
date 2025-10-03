@@ -5,6 +5,9 @@ on:
   push:
     branches: [main]
 
+  # This trigger enables the "Run workflow" button in the GitHub UI
+  workflow_dispatch:
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
