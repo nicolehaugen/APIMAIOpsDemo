@@ -1,6 +1,7 @@
 openapi: 3.0.1
 info:
   title: Echo API
+  description: Echo API endpoint to test connectivity through API Management Gateway
   version: '1.0'
 servers:
   - url: https://staging-apim-demo.azure-api.net/echo

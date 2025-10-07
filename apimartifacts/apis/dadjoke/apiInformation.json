@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "path": "dadjoke",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "contact": {
+      "email": "support@icanhazdadjoke.com",
+      "url": "https://icanhazdadjoke.com/"
+    },
+    "description": "API for fetching a random dad joke, a specific joke, or searching for jokes in a variety of formats",
+    "isCurrent": true,
+    "displayName": "Dad Joke API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://icanhazdadjoke.com",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": false
+  }
+}

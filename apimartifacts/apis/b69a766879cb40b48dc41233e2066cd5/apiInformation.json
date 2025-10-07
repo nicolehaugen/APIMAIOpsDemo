@@ -1,15 +1,15 @@
 {
   "properties": {
-    "path": "echo",
+    "path": "weatherbit",
     "apiRevision": "1",
     "authenticationSettings": {},
-    "description": "Echo API endpoint to test connectivity through API Management Gateway",
+    "description": "Weather Forecast and Historical Weather Data API",
     "isCurrent": true,
-    "displayName": "Echo API",
+    "displayName": "WeatherBit API",
     "protocols": [
       "https"
     ],
-    "serviceUrl": "https://echo.playground.azure-api.net/api",
+    "serviceUrl": "https://api.weatherbit.io/v2.0",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"

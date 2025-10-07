@@ -1,0 +1,189 @@
+openapi: 3.0.1
+info:
+  title: GNews API
+  description: GNews API provides access to news articles from various sources across the web.
+  contact:
+    name: GNews API
+    url: https://gnews.io/
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/gnews-api
+paths:
+  /top-headlines:
+    get:
+      summary: Get Top Headlines
+      description: Returns the top headlines articles from various sources.
+      operationId: get-top-headlines
+      parameters:
+        - name: lang
+          in: query
+          description: 'The language of the news articles. Available options: ar, zh, nl, en, fr, de, el, he, hi, it, ja, ml, mr, no, pt, ro, ru, es, sv, ta, te, uk'
+          schema:
+            type: string
+            default: en
+        - name: country
+          in: query
+          description: 'The country of the news sources. Available options: au, br, ca, cn, eg, fr, de, gr, hk, in, ie, il, it, jp, nl, no, pk, pe, ph, pt, ro, ru, sg, es, se, ch, tw, ua, gb, us'
+          schema:
+            type: string
+        - name: max
+          in: query
+          description: 'The maximum number of news articles to return. Value range: 1-100. Default: 10'
+          schema:
+            maximum: 100.0
+            minimum: 1.0
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Successful response with news articles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsResponse'
+              example:
+                totalArticles: 0
+                articles:
+                  - title: string
+                    description: string
+                    content: string
+                    url: string
+                    image: string
+                    publishedAt: string
+                    source:
+                      name: string
+                      url: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 0
+                message: string
+  /search:
+    get:
+      summary: Search News Articles
+      description: Search for news articles by query and other parameters.
+      operationId: get-search-q-q
+      parameters:
+        - name: q
+          in: query
+          description: 'The search query. For example: technology'
+          required: true
+          schema:
+            type: string
+        - name: lang
+          in: query
+          description: 'The language of the news articles. Available options: ar, zh, nl, en, fr, de, el, he, hi, it, ja, ml, mr, no, pt, ro, ru, es, sv, ta, te, uk'
+          schema:
+            type: string
+            default: en
+        - name: country
+          in: query
+          description: 'The country of the news sources. Available options: au, br, ca, cn, eg, fr, de, gr, hk, in, ie, il, it, jp, nl, no, pk, pe, ph, pt, ro, ru, sg, es, se, ch, tw, ua, gb, us'
+          schema:
+            type: string
+        - name: max
+          in: query
+          description: 'The maximum number of news articles to return. Value range: 1-100. Default: 10'
+          schema:
+            maximum: 100.0
+            minimum: 1.0
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Successful response with news articles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsResponse'
+              example:
+                totalArticles: 0
+                articles:
+                  - title: string
+                    description: string
+                    content: string
+                    url: string
+                    image: string
+                    publishedAt: string
+                    source:
+                      name: string
+                      url: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 0
+                message: string
+components:
+  schemas:
+    NewsResponse:
+      type: object
+      properties:
+        totalArticles:
+          type: integer
+          description: Total number of articles found
+        articles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+    Article:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the article
+        description:
+          type: string
+          description: The description of the article
+        content:
+          type: string
+          description: The content of the article
+        url:
+          type: string
+          description: The URL of the article
+        image:
+          type: string
+          description: The URL of the article image
+        publishedAt:
+          type: string
+          description: The published date of the article
+          format: date-time
+        source:
+          $ref: '#/components/schemas/Source'
+    Source:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the news source
+        url:
+          type: string
+          description: The URL of the news source
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error code
+        message:
+          type: string
+          description: Error message
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

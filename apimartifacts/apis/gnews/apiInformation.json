@@ -1,15 +1,19 @@
 {
   "properties": {
-    "path": "echo",
+    "path": "gnews-api",
     "apiRevision": "1",
     "authenticationSettings": {},
-    "description": "Echo API endpoint to test connectivity through API Management Gateway",
+    "contact": {
+      "name": "GNews API",
+      "url": "https://gnews.io/"
+    },
+    "description": "GNews API provides access to news articles from various sources across the web.",
     "isCurrent": true,
-    "displayName": "Echo API",
+    "displayName": "GNews API",
     "protocols": [
       "https"
     ],
-    "serviceUrl": "https://echo.playground.azure-api.net/api",
+    "serviceUrl": "https://gnews.io/api/v4",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"

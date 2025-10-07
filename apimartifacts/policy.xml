@@ -1,13 +1,23 @@
 <policies>
 	<inbound>
-		<validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Access token is missing or invalid.">
-			<openid-config url="https://login.microsoftonline.com/{{TenantId}}/v2.0/.well-known/openid-configuration" />
-			<audiences>
-				<audience>api://{{ClientId}}</audience>
-			</audiences>
-		</validate-jwt>
+		<cors allow-credentials="true" terminate-unmatched-request="false">
+			<allowed-origins>
+				<origin>https://staging-apim-demo.developer.azure-api.net</origin>
+			</allowed-origins>
+			<allowed-methods preflight-result-max-age="300">
+				<method>*</method>
+			</allowed-methods>
+			<allowed-headers>
+				<header>*</header>
+			</allowed-headers>
+			<expose-headers>
+				<header>*</header>
+			</expose-headers>
+		</cors>
 	</inbound>
-	<backend />
+	<backend>
+		<forward-request timeout="10" />
+	</backend>
 	<outbound />
 	<on-error />
 </policies>

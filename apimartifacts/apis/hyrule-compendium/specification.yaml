@@ -1,0 +1,324 @@
+openapi: 3.0.1
+info:
+  title: Hyrule Compendium API
+  description: 'An API serving data on all in-game items and regions in The Legend of Zelda: Breath of the Wild and Tears of the Kingdom.'
+  contact:
+    name: Aarav Borthakur
+    url: https://github.com/gadhagod/Hyrule-Compendium-API
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/hyrule-compendium
+paths:
+  /compendium/all:
+    get:
+      tags:
+        - compendium
+      summary: Get all entries in the compendium
+      description: 'Returns all entries in the Hyrule Compendium including creatures, monsters, materials, equipment, and treasure.'
+      operationId: getAllEntries
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllEntriesResponse'
+              example:
+                data:
+                  - category: creatures
+                    common_locations:
+                      - string
+                    description: string
+                    dlc: true
+                    id: 0
+                    image: string
+                    name: string
+                    drops:
+                      - string
+                    hearts_recovered: 0
+                    cooking_effect: string
+                    edible: true
+                    properties:
+                      attack: 0
+                      defense: 0
+                message: string
+                status: 0
+  '/compendium/entry/id/{id}':
+    get:
+      tags:
+        - compendium
+      summary: Get entry by ID
+      description: Returns a single entry from the Hyrule Compendium by its ID.
+      operationId: getEntryById
+      parameters:
+        - name: id
+          in: path
+          description: ID of the entry to return
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleEntryResponse'
+              example:
+                data:
+                  category: creatures
+                  common_locations:
+                    - string
+                  description: string
+                  dlc: true
+                  id: 0
+                  image: string
+                  name: string
+                  drops:
+                    - string
+                  hearts_recovered: 0
+                  cooking_effect: string
+                  edible: true
+                  properties:
+                    attack: 0
+                    defense: 0
+                message: string
+                status: 0
+        '404':
+          description: Entry not found
+  '/compendium/entry/{name}':
+    get:
+      tags:
+        - compendium
+      summary: Get entry by name
+      description: Returns a single entry from the Hyrule Compendium by its name.
+      operationId: getEntryByName
+      parameters:
+        - name: name
+          in: path
+          description: Name of the entry to return (uses slug format with underscores for spaces)
+          required: true
+          schema:
+            type: string
+          example: white-maned_lynel
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleEntryResponse'
+              example:
+                data:
+                  category: creatures
+                  common_locations:
+                    - string
+                  description: string
+                  dlc: true
+                  id: 0
+                  image: string
+                  name: string
+                  drops:
+                    - string
+                  hearts_recovered: 0
+                  cooking_effect: string
+                  edible: true
+                  properties:
+                    attack: 0
+                    defense: 0
+                message: string
+                status: 0
+        '404':
+          description: Entry not found
+  '/compendium/entry/{name}/image':
+    get:
+      tags:
+        - compendium
+      summary: Get entry image
+      description: Returns the image for an entry in the compendium.
+      operationId: getEntryImage
+      parameters:
+        - name: name
+          in: path
+          description: Name of the entry to get the image for (uses slug format with underscores for spaces)
+          required: true
+          schema:
+            type: string
+          example: white-maned_lynel
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+              examples:
+                default:
+                  value: 
+        '404':
+          description: Entry not found
+  '/compendium/category/{category}':
+    get:
+      tags:
+        - compendium
+      summary: Get entries by category
+      description: Returns all entries from a specific category in the Hyrule Compendium.
+      operationId: getEntriesByCategory
+      parameters:
+        - name: category
+          in: path
+          description: Category to filter by
+          required: true
+          schema:
+            enum:
+              - creatures
+              - monsters
+              - materials
+              - equipment
+              - treasure
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryEntriesResponse'
+              example:
+                data:
+                  - category: creatures
+                    common_locations:
+                      - string
+                    description: string
+                    dlc: true
+                    id: 0
+                    image: string
+                    name: string
+                    drops:
+                      - string
+                    hearts_recovered: 0
+                    cooking_effect: string
+                    edible: true
+                    properties:
+                      attack: 0
+                      defense: 0
+                message: string
+                status: 0
+        '404':
+          description: Category not found
+components:
+  schemas:
+    Entry:
+      type: object
+      properties:
+        category:
+          enum:
+            - creatures
+            - monsters
+            - materials
+            - equipment
+            - treasure
+          type: string
+          description: The category that the entry belongs to
+        common_locations:
+          type: array
+          items:
+            type: string
+          description: Array of locations where this entry can be found
+          nullable: true
+        description:
+          type: string
+          description: A detailed description of the entry
+        dlc:
+          type: boolean
+          description: Whether this entry is from DLC content
+        id:
+          type: integer
+          description: The unique identifier for this entry
+        image:
+          type: string
+          description: URL to the image for this entry
+        name:
+          type: string
+          description: The name of this entry
+        drops:
+          type: array
+          items:
+            type: string
+          description: Items that this entry drops when defeated (for monsters/creatures)
+          nullable: true
+        hearts_recovered:
+          type: number
+          description: Amount of hearts recovered when consumed (for food items)
+          nullable: true
+        cooking_effect:
+          type: string
+          description: Effect gained when cooked (for food items)
+          nullable: true
+        edible:
+          type: boolean
+          description: Whether this item can be eaten (for creatures/materials)
+          nullable: true
+        properties:
+          type: object
+          properties:
+            attack:
+              type: integer
+              description: Attack power
+              nullable: true
+            defense:
+              type: integer
+              description: Defense power
+              nullable: true
+          description: Weapon/shield properties (for equipment)
+          nullable: true
+    AllEntriesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entry'
+        message:
+          type: string
+        status:
+          type: integer
+    SingleEntryResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Entry'
+        message:
+          type: string
+        status:
+          type: integer
+    CategoryEntriesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entry'
+        message:
+          type: string
+        status:
+          type: integer
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
+tags:
+  - name: compendium
+    description: Access to the Hyrule Compendium data

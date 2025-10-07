@@ -1,0 +1,186 @@
+openapi: 3.0.1
+info:
+  title: Chuck Norris API
+  description: A free JSON API for hand curated Chuck Norris facts.
+  contact:
+    name: Mathias Schilling
+    url: https://www.matchilling.com/
+    email: m@matchilling.com
+  license:
+    name: Creative Commons Attribution-ShareAlike 4.0 International License
+    url: https://creativecommons.org/licenses/by-sa/4.0/
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/chucknorris
+paths:
+  /jokes/random:
+    get:
+      tags:
+        - jokes
+      summary: Get a random Chuck Norris joke
+      description: Returns a randomly selected joke from the Chuck Norris database
+      operationId: getRandomJoke
+      parameters:
+        - name: category
+          in: query
+          description: A specific category to get the joke from
+          schema:
+            type: string
+            example: dev
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Joke'
+              example:
+                id: HTdU5pF2TDqIj78XE9_KTA
+                value: An elderly man accidentally let his Buick roll into Chuck Norris' new Lexus. Chuck was furious and got violent. Chuck punched out the Buick.
+                url: https://api.chucknorris.io/jokes/HTdU5pF2TDqIj78XE9_KTA
+                icon_url: https://api.chucknorris.io/img/avatar/chuck-norris.png
+                created_at: '2020-01-05T01:42:19.0000000+00:00'
+                updated_at: '2020-01-05T01:42:19.0000000+00:00'
+                categories:
+                  - dev
+  /jokes/categories:
+    get:
+      tags:
+        - jokes
+      summary: Get all joke categories
+      description: Returns a list of all available joke categories
+      operationId: getCategories
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example:
+                  - animal
+                  - career
+                  - celebrity
+                  - dev
+                  - explicit
+                  - fashion
+                  - food
+                  - history
+                  - money
+                  - movie
+                  - music
+                  - political
+                  - religion
+                  - science
+                  - sport
+                  - travel
+              example:
+                - animal
+                - career
+                - celebrity
+                - dev
+                - explicit
+                - fashion
+                - food
+                - history
+                - money
+                - movie
+                - music
+                - political
+                - religion
+                - science
+                - sport
+                - travel
+  /jokes/search:
+    get:
+      tags:
+        - jokes
+      summary: Search for Chuck Norris jokes
+      description: Returns a list of jokes matching the provided search query
+      operationId: searchJokes
+      parameters:
+        - name: query
+          in: query
+          description: The search query
+          required: true
+          schema:
+            type: string
+            example: karate
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResult'
+              example:
+                total: 3
+                result:
+                  - id: HTdU5pF2TDqIj78XE9_KTA
+                    value: An elderly man accidentally let his Buick roll into Chuck Norris' new Lexus. Chuck was furious and got violent. Chuck punched out the Buick.
+                    url: https://api.chucknorris.io/jokes/HTdU5pF2TDqIj78XE9_KTA
+                    icon_url: https://api.chucknorris.io/img/avatar/chuck-norris.png
+                    created_at: '2020-01-05T01:42:19.0000000+00:00'
+                    updated_at: '2020-01-05T01:42:19.0000000+00:00'
+                    categories:
+                      - dev
+components:
+  schemas:
+    Joke:
+      type: object
+      properties:
+        id:
+          type: string
+          example: HTdU5pF2TDqIj78XE9_KTA
+        value:
+          type: string
+          example: An elderly man accidentally let his Buick roll into Chuck Norris' new Lexus. Chuck was furious and got violent. Chuck punched out the Buick.
+        url:
+          type: string
+          format: uri
+          example: https://api.chucknorris.io/jokes/HTdU5pF2TDqIj78XE9_KTA
+        icon_url:
+          type: string
+          format: uri
+          example: https://api.chucknorris.io/img/avatar/chuck-norris.png
+        created_at:
+          type: string
+          format: date-time
+          example: '2020-01-05T01:42:19.0000000+00:00'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2020-01-05T01:42:19.0000000+00:00'
+        categories:
+          type: array
+          items:
+            type: string
+          example:
+            - dev
+    SearchResult:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 3
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Joke'
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
+tags:
+  - name: jokes
+    description: Operations related to Chuck Norris jokes

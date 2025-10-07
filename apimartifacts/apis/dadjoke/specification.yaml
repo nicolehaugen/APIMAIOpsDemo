@@ -1,0 +1,320 @@
+openapi: 3.0.1
+info:
+  title: Dad Joke API
+  description: 'API for fetching a random dad joke, a specific joke, or searching for jokes in a variety of formats'
+  contact:
+    url: https://icanhazdadjoke.com/
+    email: support@icanhazdadjoke.com
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/dadjoke
+paths:
+  /:
+    get:
+      summary: Fetch a random dad joke
+      description: Returns a random dad joke in requested format
+      operationId: getRandomJoke
+      parameters:
+        - name: Accept
+          in: header
+          description: Requested response format
+          schema:
+            enum:
+              - application/json
+              - text/plain
+              - text/html
+            type: string
+            default: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Joke'
+              example:
+                id: string
+                joke: string
+                status: 200
+            text/plain:
+              schema:
+                type: string
+              examples:
+                default:
+                  value: 
+  '/j/{jokeId}':
+    get:
+      summary: Fetch a specific dad joke by ID
+      description: Returns a specific dad joke in requested format
+      operationId: getJokeById
+      parameters:
+        - name: jokeId
+          in: path
+          description: ID of the joke to return
+          required: true
+          schema:
+            type: string
+        - name: Accept
+          in: header
+          description: Requested response format
+          schema:
+            enum:
+              - application/json
+              - text/plain
+              - text/html
+            type: string
+            default: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Joke'
+              example:
+                id: string
+                joke: string
+                status: 200
+            text/plain:
+              schema:
+                type: string
+              examples:
+                default:
+                  value: 
+        '404':
+          description: Joke not found
+  '/j/{jokeId}.png':
+    get:
+      summary: Fetch a dad joke as an image
+      description: Returns a dad joke as a PNG image
+      operationId: getJokeAsImage
+      parameters:
+        - name: jokeId
+          in: path
+          description: ID of the joke to return as an image
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+              examples:
+                default:
+                  value: 
+        '404':
+          description: Joke not found
+  /search:
+    get:
+      summary: Search for dad jokes
+      description: 'Search for dad jokes with optional term, pagination, and limit'
+      operationId: searchJokes
+      parameters:
+        - name: term
+          in: query
+          description: Search term to filter jokes
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number for paginated results
+          schema:
+            minimum: 1.0
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: 'Number of results to return per page (max: 30)'
+          schema:
+            maximum: 30.0
+            minimum: 1.0
+            type: integer
+            default: 20
+        - name: Accept
+          in: header
+          description: Requested response format
+          schema:
+            enum:
+              - application/json
+              - text/plain
+              - text/html
+            type: string
+            default: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResults'
+              example:
+                current_page: 0
+                limit: 0
+                next_page: 0
+                previous_page: 0
+                results:
+                  - id: string
+                    joke: string
+                search_term: string
+                status: 200
+                total_jokes: 0
+                total_pages: 0
+            text/plain:
+              schema:
+                type: string
+              examples:
+                default:
+                  value: 
+  /slack:
+    get:
+      summary: Fetch a random dad joke for Slack
+      description: Returns a random dad joke formatted for Slack
+      operationId: getSlackJoke
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlackJoke'
+              example:
+                attachments:
+                  - fallback: string
+                    footer: string
+                    text: string
+                response_type: in_channel
+                username: icanhazdadjoke
+  /graphql:
+    post:
+      summary: GraphQL endpoint
+      description: Allows GraphQL queries to fetch jokes
+      operationId: graphqlQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - query
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: GraphQL query string
+                  example: 'query { joke { id joke permalink } }'
+            example:
+              query: 'query { joke { id joke permalink } }'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                  errors:
+                    type: array
+                    items:
+                      type: object
+              example:
+                data: { }
+                errors:
+                  - { }
+components:
+  schemas:
+    Joke:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the joke
+        joke:
+          type: string
+          description: The joke text
+        status:
+          type: integer
+          description: HTTP status code
+          default: 200
+    JokeResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the joke
+        joke:
+          type: string
+          description: The joke text
+    SearchResults:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          description: Current page number
+        limit:
+          type: integer
+          description: Number of results per page
+        next_page:
+          type: integer
+          description: Next page number
+        previous_page:
+          type: integer
+          description: Previous page number
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/JokeResult'
+          description: List of jokes matching the search criteria
+        search_term:
+          type: string
+          description: The search term used
+        status:
+          type: integer
+          description: HTTP status code
+          default: 200
+        total_jokes:
+          type: integer
+          description: Total number of jokes matching the search criteria
+        total_pages:
+          type: integer
+          description: Total number of pages available
+    SlackJoke:
+      type: object
+      properties:
+        attachments:
+          type: array
+          items:
+            type: object
+            properties:
+              fallback:
+                type: string
+                description: Fallback text for the joke
+              footer:
+                type: string
+                description: Footer text
+              text:
+                type: string
+                description: The joke text
+        response_type:
+          type: string
+          default: in_channel
+        username:
+          type: string
+          default: icanhazdadjoke
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - { }
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

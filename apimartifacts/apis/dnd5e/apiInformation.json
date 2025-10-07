@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "path": "dnd5e",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "contact": {
+      "url": "https://github.com/5e-bits/5e-srd-api"
+    },
+    "description": "A RESTful API for accessing resources from the 5th Edition System Reference Document (SRD).",
+    "isCurrent": true,
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "displayName": "D\u0026D 5e API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://www.dnd5eapi.co",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

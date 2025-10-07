@@ -1,0 +1,517 @@
+openapi: 3.0.1
+info:
+  title: Open Library API
+  description: "- These are still in development and may not be perfect\n- Contribute by proposing edits to [openapi.json](https://github.com/internetarchive/openlibrary/blob/master/static/openapi.json)\n- Please do not use our APIs for bulk downloads, see [dev center](https://openlibrary.org/developers/api) \n- (Warning!) As Swagger only contains a subset of the API, please see the API pages in the developer's docs for the full set."
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/openlibrary
+paths:
+  /api/books:
+    get:
+      tags:
+        - books
+      summary: Read Api Books
+      description: Read Api Books
+      operationId: read_api_books_api_books_get
+      parameters:
+        - name: bibkeys
+          in: query
+          required: true
+          schema:
+            title: Bibkeys
+            type: string
+          examples:
+            isbn:
+              value: ISBN:0201558025
+            oclc:
+              value: OCLC:263296519
+            multiple:
+              value: 'ISBN:9781408113479,OCLC:420517'
+        - name: format
+          in: query
+          description: Specifies the response format. Possible values are json and javascript. When not specified the format is javascript.
+          schema:
+            title: Format
+            type: string
+            default: json
+        - name: callback
+          in: query
+          description: The name of the JavaScript function to call with the result. This is considered only when the format is javascript.
+          schema:
+            title: Callback
+            type: string
+        - name: jscmd
+          in: query
+          description: Decides what information to provide for each matched bib_key. Possible values are viewapi and data. The default value is viewapi.
+          schema:
+            title: Jscmd
+            type: string
+            default: viewapi
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  '/api/volumes/brief/{key_type}/{value}.json':
+    get:
+      tags:
+        - books
+      summary: Read Api Volumes Brief
+      description: Read Api Volumes Brief
+      operationId: read_api_volumes_brief_api_volumes_brief__key_type___value__json_get
+      parameters:
+        - name: key_type
+          in: path
+          required: true
+          schema:
+            title: Key Type
+            type: string
+            example: isbn
+        - name: value
+          in: path
+          required: true
+          schema:
+            title: Value
+            type: string
+            example: '9781408113479'
+        - name: callback
+          in: query
+          schema:
+            title: Callback
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  '/authors/{olid}.json':
+    get:
+      tags:
+        - authors
+      summary: Read Authors
+      description: Read Authors
+      operationId: read_authors_authors__olid__json_get
+      parameters:
+        - name: olid
+          in: path
+          required: true
+          schema:
+            title: Olid
+            type: string
+            example: OL23919A
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  '/authors/{olid}/works.json':
+    get:
+      tags:
+        - authors
+      summary: Read Authors Works
+      description: Read Authors Works
+      operationId: read_authors_works_authors__olid__works_json_get
+      parameters:
+        - name: olid
+          in: path
+          required: true
+          schema:
+            title: Olid
+            type: string
+            example: OL23919A
+        - name: limit
+          in: query
+          schema:
+            title: Limit
+            type: integer
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  '/books/{olid}':
+    get:
+      tags:
+        - books
+      summary: Read Books
+      description: Read Books
+      operationId: read_books_books__olid__get
+      parameters:
+        - name: olid
+          in: path
+          required: true
+          schema:
+            title: Olid
+            type: string
+            example: OL53924W
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  '/covers/{key_type}/{value}-{size}.jpg':
+    get:
+      tags:
+        - covers
+      summary: Read Covers Key Type Value Size Jpeg
+      description: Read Covers Key Type Value Size Jpeg
+      operationId: read_covers_key_type_value_size_jpeg_covers__key_type___value___size__jpg_ge
+      parameters:
+        - name: key_type
+          in: path
+          required: true
+          schema:
+            title: Key Type
+            enum:
+              - isbn
+              - olid
+              - oclc
+              - lccn
+              - id
+            type: string
+            example: isbn
+        - name: value
+          in: path
+          required: true
+          schema:
+            title: Value
+            type: string
+            example: '9781408113479'
+        - name: size
+          in: path
+          required: true
+          schema:
+            title: Size
+            enum:
+              - S
+              - M
+              - L
+            type: string
+            example: M
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  '/isbn/{isbn}':
+    get:
+      tags:
+        - books
+      summary: Read Isbn
+      description: Read Isbn
+      operationId: read_isbn_isbn__isbn__get
+      parameters:
+        - name: isbn
+          in: path
+          required: true
+          schema:
+            title: Isbn
+            type: string
+            example: '9781408113479'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  /search.json:
+    get:
+      tags:
+        - search
+      summary: Read Search Json
+      description: Read Search Json
+      operationId: read_search_json_search_json_get
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            title: Q
+            type: string
+            example: the lord of the rings
+        - name: page
+          in: query
+          schema:
+            title: Page
+            type: integer
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  /search/authors.json:
+    get:
+      tags:
+        - search
+      summary: Read Search Authors Json
+      description: Read Search Authors Json
+      operationId: read_search_authors_json_search_authors_json_get
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            title: Q
+            type: string
+            example: tolkien
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  '/subjects/{subject}.json':
+    get:
+      tags:
+        - subjects
+      summary: Read Subjects
+      description: Read Subjects
+      operationId: read_subjects_subjects__subject__json_get
+      parameters:
+        - name: subject
+          in: path
+          required: true
+          schema:
+            title: Subject
+            type: string
+            example: science_fiction
+        - name: details
+          in: query
+          schema:
+            title: Details
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+  '/works/{olid}':
+    get:
+      tags:
+        - books
+      summary: Read Works
+      description: Read Works
+      operationId: read_works_works__olid__get
+      parameters:
+        - name: olid
+          in: path
+          required: true
+          schema:
+            title: Olid
+            type: string
+            example: OL53924W
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: { }
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+              example:
+                detail:
+                  - loc:
+                      - string
+                    msg: string
+                    type: string
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
+tags:
+  - name: books
+    description: Retrieve a specific work or edition by identifier
+    externalDocs:
+      description: Find out more
+      url: https://openlibrary.org/dev/docs/api/books
+  - name: authors
+    description: Retrieve an author and their works by author identifier
+    externalDocs:
+      description: Find out more
+      url: https://openlibrary.org/dev/docs/api/authors
+  - name: search
+    description: 'Search results for books, authors, and more'
+    externalDocs:
+      description: Find out more
+      url: https://openlibrary.org/dev/docs/api/search
+  - name: covers
+    description: Fetch book covers by ISBN or Open Library identifier
+    externalDocs:
+      description: Find out more
+      url: https://openlibrary.org/dev/docs/api/covers
+  - name: subjects
+    description: 'Fetch books by subject name '
+    externalDocs:
+      description: Find out more
+      url: https://openlibrary.org/dev/docs/api/subjects

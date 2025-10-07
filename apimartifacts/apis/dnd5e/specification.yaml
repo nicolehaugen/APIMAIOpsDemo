@@ -1,0 +1,972 @@
+openapi: 3.0.1
+info:
+  title: D&D 5e API
+  description: A RESTful API for accessing resources from the 5th Edition System Reference Document (SRD).
+  contact:
+    url: https://github.com/5e-bits/5e-srd-api
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/dnd5e
+paths:
+  /api/2014:
+    get:
+      summary: Get all available resources
+      description: Returns a list of all available resource endpoints
+      operationId: getApiIndex
+      responses:
+        '200':
+          description: A list of resource endpoints
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  ability-scores: /api/2014/ability-scores
+                  classes: /api/2014/classes
+                  races: /api/2014/races
+              example:
+                ability-scores: /api/2014/ability-scores
+                classes: /api/2014/classes
+                races: /api/2014/races
+  /api/2014/ability-scores:
+    get:
+      tags:
+        - ability-scores
+      summary: Get all ability scores
+      description: Returns a list of all ability scores
+      operationId: getAbilityScores
+      responses:
+        '200':
+          description: A list of ability scores
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceList'
+              example:
+                count: 319
+                results:
+                  - index: acid-arrow
+                    name: Acid Arrow
+                    url: /api/2014/spells/acid-arrow
+  '/api/2014/ability-scores/{index}':
+    get:
+      tags:
+        - ability-scores
+      summary: Get an ability score by index
+      description: Returns a single ability score by its index
+      operationId: getAbilityScoreByIndex
+      parameters:
+        - name: index
+          in: path
+          description: The index of the ability score
+          required: true
+          schema:
+            type: string
+          example: cha
+      responses:
+        '200':
+          description: An ability score
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AbilityScore'
+              example:
+                index: cha
+                name: CHA
+                full_name: Charisma
+                desc:
+                  - 'Charisma measures your ability to interact effectively with others. It includes such factors as confidence and eloquence, and it can represent a charming or commanding personality.'
+                  - 'A Charisma check might arise when you try to influence or entertain others, when you try to make an impression or tell a convincing lie, or when you are navigating a tricky social situation. The Deception, Intimidation, Performance, and Persuasion skills reflect aptitude in certain kinds of Charisma checks.'
+                skills:
+                  - name: Deception
+                    index: deception
+                    url: /api/2014/skills/deception
+                url: /api/2014/ability-scores/cha
+        '404':
+          description: Resource not found
+  /api/2014/classes:
+    get:
+      tags:
+        - classes
+      summary: Get all classes
+      description: Returns a list of all classes
+      operationId: getClasses
+      responses:
+        '200':
+          description: A list of classes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceList'
+              example:
+                count: 319
+                results:
+                  - index: acid-arrow
+                    name: Acid Arrow
+                    url: /api/2014/spells/acid-arrow
+  '/api/2014/classes/{index}':
+    get:
+      tags:
+        - classes
+      summary: Get a class by index
+      description: Returns a single class by its index
+      operationId: getClassByIndex
+      parameters:
+        - name: index
+          in: path
+          description: The index of the class
+          required: true
+          schema:
+            type: string
+          example: wizard
+      responses:
+        '200':
+          description: A class
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+              example:
+                index: wizard
+                name: Wizard
+                hit_die: 6
+                proficiency_choices:
+                  - { }
+                proficiencies:
+                  - index: daggers
+                    name: Daggers
+                    url: /api/2014/proficiencies/daggers
+                saving_throws:
+                  - index: int
+                    name: INT
+                    url: /api/2014/ability-scores/int
+                starting_equipment:
+                  - { }
+                class_levels: /api/2014/classes/wizard/levels
+                subclasses:
+                  - index: evocation
+                    name: Evocation
+                    url: /api/2014/subclasses/evocation
+                url: /api/2014/classes/wizard
+        '404':
+          description: Resource not found
+  /api/2014/races:
+    get:
+      tags:
+        - races
+      summary: Get all races
+      description: Returns a list of all races
+      operationId: getRaces
+      responses:
+        '200':
+          description: A list of races
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceList'
+              example:
+                count: 319
+                results:
+                  - index: acid-arrow
+                    name: Acid Arrow
+                    url: /api/2014/spells/acid-arrow
+  '/api/2014/races/{index}':
+    get:
+      tags:
+        - races
+      summary: Get a race by index
+      description: Returns a single race by its index
+      operationId: getRaceByIndex
+      parameters:
+        - name: index
+          in: path
+          description: The index of the race
+          required: true
+          schema:
+            type: string
+          example: elf
+      responses:
+        '200':
+          description: A race
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Race'
+              example:
+                index: elf
+                name: Elf
+                speed: 30
+                ability_bonuses:
+                  - ability_score:
+                      index: dex
+                      name: DEX
+                      url: /api/2014/ability-scores/dex
+                    bonus: 2
+                alignment: 'Elves love freedom, variety, and self-expression, so they lean strongly toward the gentler aspects of chaos. They value and protect others'' freedom as well as their own, and they are more often good than not.'
+                age: 'Although elves reach physical maturity at about the same age as humans, the elven understanding of adulthood goes beyond physical growth to encompass worldly experience. An elf typically claims adulthood and an adult name around the age of 100 and can live to be 750 years old.'
+                size: Medium
+                size_description: Elves range from under 5 to over 6 feet tall and have slender builds. Your size is Medium.
+                starting_proficiencies:
+                  - index: skill-perception
+                    name: 'Skill: Perception'
+                    url: /api/2014/proficiencies/skill-perception
+                languages:
+                  - index: common
+                    name: Common
+                    url: /api/2014/languages/common
+                language_desc: 'You can speak, read, and write Common and Elvish. Elvish is fluid, with subtle intonations and intricate grammar. Elven literature is rich and varied, and their songs and poems are famous among other races. Many bards learn their language so they can add Elvish ballads to their repertoires.'
+                traits:
+                  - index: darkvision
+                    name: Darkvision
+                    url: /api/2014/traits/darkvision
+                subraces:
+                  - index: high-elf
+                    name: High Elf
+                    url: /api/2014/subraces/high-elf
+                url: /api/2014/races/elf
+        '404':
+          description: Resource not found
+  /api/2014/spells:
+    get:
+      tags:
+        - spells
+      summary: Get all spells
+      description: Returns a list of all spells
+      operationId: getSpells
+      responses:
+        '200':
+          description: A list of spells
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceList'
+              example:
+                count: 319
+                results:
+                  - index: acid-arrow
+                    name: Acid Arrow
+                    url: /api/2014/spells/acid-arrow
+  '/api/2014/spells/{index}':
+    get:
+      tags:
+        - spells
+      summary: Get a spell by index
+      description: Returns a single spell by its index
+      operationId: getSpellByIndex
+      parameters:
+        - name: index
+          in: path
+          description: The index of the spell
+          required: true
+          schema:
+            type: string
+          example: acid-arrow
+      responses:
+        '200':
+          description: A spell
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spell'
+              example:
+                index: acid-arrow
+                name: Acid Arrow
+                desc:
+                  - 'A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn.'
+                higher_level:
+                  - 'When you cast this spell using a spell slot of 3rd level or higher, the damage (both initial and later) increases by 1d4 for each slot level above 2nd.'
+                range: 90 feet
+                components:
+                  - V
+                  - S
+                  - M
+                material: Powdered rhubarb leaf and an adder's stomach.
+                ritual: false
+                duration: Instantaneous
+                concentration: false
+                casting_time: 1 action
+                level: 2
+                attack_type: ranged
+                damage:
+                  damage_type:
+                    index: acid
+                    name: Acid
+                    url: /api/2014/damage-types/acid
+                  damage_at_slot_level:
+                    '2': 4d4
+                    '3': 5d4
+                    '4': 6d4
+                school:
+                  index: evocation
+                  name: Evocation
+                  url: /api/2014/magic-schools/evocation
+                classes:
+                  - index: wizard
+                    name: Wizard
+                    url: /api/2014/classes/wizard
+                subclasses:
+                  - index: lore
+                    name: Lore
+                    url: /api/2014/subclasses/lore
+                url: /api/2014/spells/acid-arrow
+        '404':
+          description: Resource not found
+  /api/2014/monsters:
+    get:
+      tags:
+        - monsters
+      summary: Get all monsters
+      description: Returns a list of all monsters
+      operationId: getMonsters
+      responses:
+        '200':
+          description: A list of monsters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceList'
+              example:
+                count: 319
+                results:
+                  - index: acid-arrow
+                    name: Acid Arrow
+                    url: /api/2014/spells/acid-arrow
+  '/api/2014/monsters/{index}':
+    get:
+      tags:
+        - monsters
+      summary: Get a monster by index
+      description: Returns a single monster by its index
+      operationId: getMonsterByIndex
+      parameters:
+        - name: index
+          in: path
+          description: The index of the monster
+          required: true
+          schema:
+            type: string
+          example: adult-black-dragon
+      responses:
+        '200':
+          description: A monster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Monster'
+              example:
+                index: adult-black-dragon
+                name: Adult Black Dragon
+                size: Huge
+                type: dragon
+                alignment: chaotic evil
+                armor_class: 19
+                hit_points: 195
+                hit_dice: 17d12+85
+                speed:
+                  walk: 40 ft.
+                  fly: 80 ft.
+                  swim: 40 ft.
+                strength: 23
+                dexterity: 14
+                constitution: 21
+                intelligence: 14
+                wisdom: 13
+                charisma: 17
+                url: /api/2014/monsters/adult-black-dragon
+        '404':
+          description: Resource not found
+  /api/2014/equipment:
+    get:
+      tags:
+        - equipment
+      summary: Get all equipment
+      description: Returns a list of all equipment
+      operationId: getEquipment
+      responses:
+        '200':
+          description: A list of equipment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceList'
+              example:
+                count: 319
+                results:
+                  - index: acid-arrow
+                    name: Acid Arrow
+                    url: /api/2014/spells/acid-arrow
+  '/api/2014/equipment/{index}':
+    get:
+      tags:
+        - equipment
+      summary: Get equipment by index
+      description: Returns a single equipment item by its index
+      operationId: getEquipmentByIndex
+      parameters:
+        - name: index
+          in: path
+          description: The index of the equipment
+          required: true
+          schema:
+            type: string
+          example: longsword
+      responses:
+        '200':
+          description: An equipment item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+              example:
+                index: longsword
+                name: Longsword
+                equipment_category:
+                  index: weapon
+                  name: Weapon
+                  url: /api/2014/equipment-categories/weapon
+                weapon_category: Martial
+                weapon_range: Melee
+                category_range: Martial Melee
+                cost:
+                  quantity: 15
+                  unit: gp
+                damage:
+                  damage_dice: 1d8
+                  damage_type:
+                    index: slashing
+                    name: Slashing
+                    url: /api/2014/damage-types/slashing
+                range:
+                  normal: 5
+                weight: 3
+                properties:
+                  - index: versatile
+                    name: Versatile
+                    url: /api/2014/weapon-properties/versatile
+                url: /api/2014/equipment/longsword
+        '404':
+          description: Resource not found
+components:
+  schemas:
+    ResourceList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 319
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: acid-arrow
+              name:
+                type: string
+                example: Acid Arrow
+              url:
+                type: string
+                example: /api/2014/spells/acid-arrow
+    AbilityScore:
+      type: object
+      properties:
+        index:
+          type: string
+          example: cha
+        name:
+          type: string
+          example: CHA
+        full_name:
+          type: string
+          example: Charisma
+        desc:
+          type: array
+          items:
+            type: string
+          example:
+            - 'Charisma measures your ability to interact effectively with others. It includes such factors as confidence and eloquence, and it can represent a charming or commanding personality.'
+            - 'A Charisma check might arise when you try to influence or entertain others, when you try to make an impression or tell a convincing lie, or when you are navigating a tricky social situation. The Deception, Intimidation, Performance, and Persuasion skills reflect aptitude in certain kinds of Charisma checks.'
+        skills:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Deception
+              index:
+                type: string
+                example: deception
+              url:
+                type: string
+                example: /api/2014/skills/deception
+        url:
+          type: string
+          example: /api/2014/ability-scores/cha
+    Class:
+      type: object
+      properties:
+        index:
+          type: string
+          example: wizard
+        name:
+          type: string
+          example: Wizard
+        hit_die:
+          type: integer
+          example: 6
+        proficiency_choices:
+          type: array
+          items:
+            type: object
+        proficiencies:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: daggers
+              name:
+                type: string
+                example: Daggers
+              url:
+                type: string
+                example: /api/2014/proficiencies/daggers
+        saving_throws:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: int
+              name:
+                type: string
+                example: INT
+              url:
+                type: string
+                example: /api/2014/ability-scores/int
+        starting_equipment:
+          type: array
+          items:
+            type: object
+        class_levels:
+          type: string
+          example: /api/2014/classes/wizard/levels
+        subclasses:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: evocation
+              name:
+                type: string
+                example: Evocation
+              url:
+                type: string
+                example: /api/2014/subclasses/evocation
+        url:
+          type: string
+          example: /api/2014/classes/wizard
+    Race:
+      type: object
+      properties:
+        index:
+          type: string
+          example: elf
+        name:
+          type: string
+          example: Elf
+        speed:
+          type: integer
+          example: 30
+        ability_bonuses:
+          type: array
+          items:
+            type: object
+            properties:
+              ability_score:
+                type: object
+                properties:
+                  index:
+                    type: string
+                    example: dex
+                  name:
+                    type: string
+                    example: DEX
+                  url:
+                    type: string
+                    example: /api/2014/ability-scores/dex
+              bonus:
+                type: integer
+                example: 2
+        alignment:
+          type: string
+          example: 'Elves love freedom, variety, and self-expression, so they lean strongly toward the gentler aspects of chaos. They value and protect others'' freedom as well as their own, and they are more often good than not.'
+        age:
+          type: string
+          example: 'Although elves reach physical maturity at about the same age as humans, the elven understanding of adulthood goes beyond physical growth to encompass worldly experience. An elf typically claims adulthood and an adult name around the age of 100 and can live to be 750 years old.'
+        size:
+          type: string
+          example: Medium
+        size_description:
+          type: string
+          example: Elves range from under 5 to over 6 feet tall and have slender builds. Your size is Medium.
+        starting_proficiencies:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: skill-perception
+              name:
+                type: string
+                example: 'Skill: Perception'
+              url:
+                type: string
+                example: /api/2014/proficiencies/skill-perception
+        languages:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: common
+              name:
+                type: string
+                example: Common
+              url:
+                type: string
+                example: /api/2014/languages/common
+        language_desc:
+          type: string
+          example: 'You can speak, read, and write Common and Elvish. Elvish is fluid, with subtle intonations and intricate grammar. Elven literature is rich and varied, and their songs and poems are famous among other races. Many bards learn their language so they can add Elvish ballads to their repertoires.'
+        traits:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: darkvision
+              name:
+                type: string
+                example: Darkvision
+              url:
+                type: string
+                example: /api/2014/traits/darkvision
+        subraces:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: high-elf
+              name:
+                type: string
+                example: High Elf
+              url:
+                type: string
+                example: /api/2014/subraces/high-elf
+        url:
+          type: string
+          example: /api/2014/races/elf
+    Spell:
+      type: object
+      properties:
+        index:
+          type: string
+          example: acid-arrow
+        name:
+          type: string
+          example: Acid Arrow
+        desc:
+          type: array
+          items:
+            type: string
+          example:
+            - 'A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn.'
+        higher_level:
+          type: array
+          items:
+            type: string
+          example:
+            - 'When you cast this spell using a spell slot of 3rd level or higher, the damage (both initial and later) increases by 1d4 for each slot level above 2nd.'
+        range:
+          type: string
+          example: 90 feet
+        components:
+          type: array
+          items:
+            type: string
+          example:
+            - V
+            - S
+            - M
+        material:
+          type: string
+          example: Powdered rhubarb leaf and an adder's stomach.
+        ritual:
+          type: boolean
+          example: false
+        duration:
+          type: string
+          example: Instantaneous
+        concentration:
+          type: boolean
+          example: false
+        casting_time:
+          type: string
+          example: 1 action
+        level:
+          type: integer
+          example: 2
+        attack_type:
+          type: string
+          example: ranged
+        damage:
+          type: object
+          properties:
+            damage_type:
+              type: object
+              properties:
+                index:
+                  type: string
+                  example: acid
+                name:
+                  type: string
+                  example: Acid
+                url:
+                  type: string
+                  example: /api/2014/damage-types/acid
+            damage_at_slot_level:
+              type: object
+              additionalProperties:
+                type: string
+              example:
+                '2': 4d4
+                '3': 5d4
+                '4': 6d4
+        school:
+          type: object
+          properties:
+            index:
+              type: string
+              example: evocation
+            name:
+              type: string
+              example: Evocation
+            url:
+              type: string
+              example: /api/2014/magic-schools/evocation
+        classes:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: wizard
+              name:
+                type: string
+                example: Wizard
+              url:
+                type: string
+                example: /api/2014/classes/wizard
+        subclasses:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: lore
+              name:
+                type: string
+                example: Lore
+              url:
+                type: string
+                example: /api/2014/subclasses/lore
+        url:
+          type: string
+          example: /api/2014/spells/acid-arrow
+    Monster:
+      type: object
+      properties:
+        index:
+          type: string
+          example: adult-black-dragon
+        name:
+          type: string
+          example: Adult Black Dragon
+        size:
+          type: string
+          example: Huge
+        type:
+          type: string
+          example: dragon
+        alignment:
+          type: string
+          example: chaotic evil
+        armor_class:
+          type: integer
+          example: 19
+        hit_points:
+          type: integer
+          example: 195
+        hit_dice:
+          type: string
+          example: 17d12+85
+        speed:
+          type: object
+          properties:
+            walk:
+              type: string
+              example: 40 ft.
+            fly:
+              type: string
+              example: 80 ft.
+            swim:
+              type: string
+              example: 40 ft.
+        strength:
+          type: integer
+          example: 23
+        dexterity:
+          type: integer
+          example: 14
+        constitution:
+          type: integer
+          example: 21
+        intelligence:
+          type: integer
+          example: 14
+        wisdom:
+          type: integer
+          example: 13
+        charisma:
+          type: integer
+          example: 17
+        url:
+          type: string
+          example: /api/2014/monsters/adult-black-dragon
+    Equipment:
+      type: object
+      properties:
+        index:
+          type: string
+          example: longsword
+        name:
+          type: string
+          example: Longsword
+        equipment_category:
+          type: object
+          properties:
+            index:
+              type: string
+              example: weapon
+            name:
+              type: string
+              example: Weapon
+            url:
+              type: string
+              example: /api/2014/equipment-categories/weapon
+        weapon_category:
+          type: string
+          example: Martial
+        weapon_range:
+          type: string
+          example: Melee
+        category_range:
+          type: string
+          example: Martial Melee
+        cost:
+          type: object
+          properties:
+            quantity:
+              type: integer
+              example: 15
+            unit:
+              type: string
+              example: gp
+        damage:
+          type: object
+          properties:
+            damage_dice:
+              type: string
+              example: 1d8
+            damage_type:
+              type: object
+              properties:
+                index:
+                  type: string
+                  example: slashing
+                name:
+                  type: string
+                  example: Slashing
+                url:
+                  type: string
+                  example: /api/2014/damage-types/slashing
+        range:
+          type: object
+          properties:
+            normal:
+              type: integer
+              example: 5
+        weight:
+          type: integer
+          example: 3
+        properties:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: string
+                example: versatile
+              name:
+                type: string
+                example: Versatile
+              url:
+                type: string
+                example: /api/2014/weapon-properties/versatile
+        url:
+          type: string
+          example: /api/2014/equipment/longsword
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]
+tags:
+  - name: ability-scores
+    description: Ability scores define a character's physical and mental characteristics
+  - name: classes
+    description: Character classes in the D&D world
+  - name: races
+    description: Character races in the D&D world
+  - name: spells
+    description: Magic spells from the D&D world
+  - name: monsters
+    description: Creatures and monsters from the D&D world
+  - name: equipment
+    description: 'Equipment, weapons, armor, and other items'

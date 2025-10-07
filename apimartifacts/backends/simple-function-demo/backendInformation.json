@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "credentials": {
+      "header": {
+        "x-functions-key": [
+          "{{simple-function-demo-key}}"
+        ]
+      }
+    },
+    "description": "simple-function-demo",
+    "protocol": "http",
+    "resourceId": "https://management.azure.com/subscriptions/3cbad5b9-554a-4c70-abe0-effe2f9df1c6/resourceGroups/azureintegrationteam-apidemoenv/providers/Microsoft.Web/sites/simple-function-demo",
+    "url": "https://simple-function-demo-evh0b0gtc0bwaeah.eastus-01.azurewebsites.net/api"
+  }
+}
