@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Reference Material",
+    "description": "APIs used for reference material",
+    "approvalRequired": true,
+    "state": "published",
+    "subscriptionRequired": true
+  }
+}

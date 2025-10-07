@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "path": "artic-api",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "contact": {
+      "email": "engineering@artic.edu"
+    },
+    "description": "An API for an aggregator of Art Institute of Chicago public data.",
+    "isCurrent": true,
+    "displayName": "Art Institute of Chicago API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://api.artic.edu/api/v1",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true,
+    "termsOfServiceUrl": "https://www.artic.edu/terms/terms-and-conditions"
+  }
+}

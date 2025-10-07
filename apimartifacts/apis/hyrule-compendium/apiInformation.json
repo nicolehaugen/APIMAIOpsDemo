@@ -1,0 +1,27 @@
+{
+  "properties": {
+    "path": "hyrule-compendium",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "contact": {
+      "name": "Aarav Borthakur",
+      "url": "https://github.com/gadhagod/Hyrule-Compendium-API"
+    },
+    "description": "An API serving data on all in-game items and regions in The Legend of Zelda: Breath of the Wild and Tears of the Kingdom.",
+    "isCurrent": true,
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "displayName": "Hyrule Compendium API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://botw-compendium.herokuapp.com/api/v3",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "path": "openlibrary",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "- These are still in development and may not be perfect\n- Contribute by proposing edits to [openapi.json](https://github.com/internetarchive/openlibrary/blob/master/static/openapi.json)\n- Please do not use our APIs for bulk downloads, see [dev center](https://openlibrary.org/developers/api) \n- (Warning!) As Swagger only contains a subset of the API, please see the API pages in the developer\u0027s docs for the full set.",
+    "isCurrent": true,
+    "displayName": "Open Library API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://openlibrary.org",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

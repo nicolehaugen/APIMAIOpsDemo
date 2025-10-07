@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "Just for Fun - No Subscription",
+    "description": "A few APIs to try out with no subscription required",
+    "state": "published",
+    "subscriptionRequired": false
+  }
+}

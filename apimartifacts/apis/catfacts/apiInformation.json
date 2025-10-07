@@ -1,15 +1,19 @@
 {
   "properties": {
-    "path": "echo",
+    "path": "cat-facts",
     "apiRevision": "1",
     "authenticationSettings": {},
-    "description": "Echo API endpoint to test connectivity through API Management Gateway",
+    "contact": {
+      "name": "Alex Wohlbruck",
+      "url": "https://github.com/alexwohlbruck/cat-facts"
+    },
+    "description": "A simple API to get random cat facts",
     "isCurrent": true,
-    "displayName": "Echo API",
+    "displayName": "Cat Facts API",
     "protocols": [
       "https"
     ],
-    "serviceUrl": "https://echo.playground.azure-api.net/api",
+    "serviceUrl": "https://cat-fact.herokuapp.com",
     "subscriptionKeyParameterNames": {
       "header": "Ocp-Apim-Subscription-Key",
       "query": "subscription-key"

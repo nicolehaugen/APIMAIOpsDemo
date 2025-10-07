@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "path": "chucknorris",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "contact": {
+      "email": "m@matchilling.com",
+      "name": "Mathias Schilling",
+      "url": "https://www.matchilling.com/"
+    },
+    "description": "A free JSON API for hand curated Chuck Norris facts.",
+    "isCurrent": true,
+    "license": {
+      "name": "Creative Commons Attribution-ShareAlike 4.0 International License",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "displayName": "Chuck Norris API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://api.chucknorris.io",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

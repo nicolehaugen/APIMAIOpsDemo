@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "displayName": "simple-function-demo-key",
+    "secret": true,
+    "tags": [
+      "key",
+      "function",
+      "auto"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "properties": {
+    "path": "dog-api",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "contact": {
+      "email": "contact@dog.ceo",
+      "name": "Dog CEO",
+      "url": "https://dog.ceo/dog-api"
+    },
+    "description": "A public, free API all about Dogs. Get random dog images and browse breeds.",
+    "isCurrent": true,
+    "displayName": "Dogs API",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://dog.ceo/api",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": false
+  }
+}

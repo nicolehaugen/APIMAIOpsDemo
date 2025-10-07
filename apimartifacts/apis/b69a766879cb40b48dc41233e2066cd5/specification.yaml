@@ -1,0 +1,1226 @@
+openapi: 3.0.1
+info:
+  title: WeatherBit API
+  description: Weather Forecast and Historical Weather Data API
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/weatherbit
+paths:
+  /alerts:
+    get:
+      tags:
+        - Alerts
+      summary: Returns severe weather alerts issued by meteorological agencies - Given a lat/lon.
+      description: 'Returns severe weather alerts issued by meteorological agencies - given a lat, and a lon.'
+      operationId: get-alerts-lat-lat-lon-lon-key-key
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: Wraps return in jsonp callback - Example - callback=func
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: Weather Alert Object.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  '/bulk/files/{file}':
+    get:
+      tags:
+        - Bulk Downloads
+      summary: Download pre-generated bulk datasets
+      description: 'Downloads bulk data files - OPTIONS: ( current.csv.gz, forecast_hourly.csv.gz, forecast_daily.csv.gz). Units are Metric (Celcius, m/s, etc).'
+      operationId: get-bulk-files-file-key-key
+      parameters:
+        - name: file
+          in: path
+          description: Filename (ie. current.csv.gz)
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: No Data.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /current/airquality:
+    get:
+      tags:
+        - Current Air Quality
+      summary: Returns current air quality conditions
+      description: Returns current air quality conditions.
+      operationId: get-current-airquality-key-key
+      parameters:
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: city
+          in: query
+          description: 'City search.. Example - &city=Raleigh,NC or &city=Berlin,DE or city=Paris&country=FR'
+          schema:
+            type: string
+            format: string
+        - name: city_id
+          in: query
+          description: 'City ID. Example: 4487042'
+          schema:
+            type: integer
+            format: integer
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: postal_code
+          in: query
+          description: 'Postal Code. Example: 28546'
+          schema:
+            type: integer
+            format: integer
+        - name: state
+          in: query
+          description: Full name of state.
+          schema:
+            type: string
+            format: string
+        - name: country
+          in: query
+          description: Country Code (2 letter).
+          schema:
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: Wraps return in jsonp callback. Example - callback=func
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: Current air quality conditions
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /current:
+    get:
+      tags:
+        - Current Weather Data
+      summary: Returns current weather observation data.
+      description: Returns current weather observation data.
+      operationId: get-current-key-key
+      parameters:
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: cities
+          in: query
+          description: 'Comma separated list of City ID''s. Example: 4487042, 4494942, 4504871'
+          schema:
+            type: string
+            format: string
+        - name: city
+          in: query
+          description: 'City search.. Example - &city=Raleigh,NC or &city=Berlin,DE or city=Paris&country=FR'
+          schema:
+            type: string
+            format: string
+        - name: city_id
+          in: query
+          description: 'City ID. Example: 4487042'
+          schema:
+            type: string
+            format: string
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: points
+          in: query
+          description: 'Comma separated list of points. Example: (35.5, -75.5),(45, 65),(45.12, -130.5)'
+          schema:
+            type: string
+            format: string
+        - name: postal_code
+          in: query
+          description: 'Postal Code. Example: 28546'
+          schema:
+            type: string
+            format: string
+        - name: station
+          in: query
+          description: Station Call ID.
+          schema:
+            type: string
+            format: string
+        - name: stations
+          in: query
+          description: 'Comma separated list of Station Call ID''s. Example: KRDU,KBFI,KVNY'
+          schema:
+            type: string
+            format: string
+        - name: include
+          in: query
+          description: Include 1 hour - minutely forecast in the response
+          schema:
+            enum:
+              - minutely
+            type: string
+            format: string
+        - name: state
+          in: query
+          description: Full name of state.
+          schema:
+            type: string
+            format: string
+        - name: country
+          in: query
+          description: Country Code (2 letter).
+          schema:
+            type: string
+            format: string
+        - name: marine
+          in: query
+          description: 'Marine stations only (buoys, oil platforms, etc)'
+          schema:
+            enum:
+              - t
+            type: string
+            format: string
+        - name: units
+          in: query
+          description: Convert to units. Default Metric See units field description
+          schema:
+            enum:
+              - S
+              - I
+            type: string
+            format: string
+        - name: lang
+          in: query
+          description: 'Language (Default: English)'
+          schema:
+            enum:
+              - ar
+              - az
+              - be
+              - bg
+              - bs
+              - ca
+              - cs
+              - de
+              - fi
+              - fr
+              - el
+              - es
+              - et
+              - hr
+              - hu
+              - id
+              - it
+              - is
+              - kw
+              - nb
+              - nl
+              - pl
+              - pt
+              - ro
+              - ru
+              - sk
+              - sl
+              - sr
+              - sv
+              - tr
+              - uk
+              - zh
+              - zh-tw
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: Wraps return in jsonp callback - Example - callback=func
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: An Observation Group object.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /forecast/airquality:
+    get:
+      tags:
+        - Air Quality Forecast
+      summary: Returns 72 hour (hourly) Air Quality forecast
+      description: 'Returns 72 hour (hourly) Air Quality forecast, where each point represents a one hour period.'
+      operationId: get-forecast-airquality-key-key
+      parameters:
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: city
+          in: query
+          description: 'City search.. Example - &city=Raleigh,NC or &city=Berlin,DE or city=Paris&country=FR'
+          schema:
+            type: string
+            format: string
+        - name: city_id
+          in: query
+          description: 'City ID. Example: 4487042'
+          schema:
+            type: integer
+            format: integer
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: postal_code
+          in: query
+          description: 'Postal Code. Example: 28546'
+          schema:
+            type: integer
+            format: integer
+        - name: state
+          in: query
+          description: Full name of state.
+          schema:
+            type: string
+            format: string
+        - name: country
+          in: query
+          description: Country Code (2 letter).
+          schema:
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: 'Wraps return in jsonp callback. Example: callback=func'
+          schema:
+            type: string
+            format: string
+        - name: hours
+          in: query
+          description: Number of hours to return.
+          schema:
+            type: integer
+            format: integer
+      responses:
+        '200':
+          description: A forecast object.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /forecast/daily:
+    get:
+      tags:
+        - 16 day / daily Forecast
+      summary: Returns a daily forecast
+      description: 'Returns a daily forecast, where each point represents one day (24hr) period. Every point has a datetime string in the format "YYYY-MM-DD". One day begins at 00:00 UTC, and ends at 23:59 UTC.'
+      operationId: get-forecast-daily-key-key
+      parameters:
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: city
+          in: query
+          description: 'City search.. Example - &city=Raleigh,NC or &city=Berlin,DE or city=Paris&country=FR'
+          schema:
+            type: string
+            format: string
+        - name: city_id
+          in: query
+          description: 'City ID. Example: 4487042'
+          schema:
+            type: integer
+            format: integer
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: postal_code
+          in: query
+          description: 'Postal Code. Example: 28546'
+          schema:
+            type: integer
+            format: integer
+        - name: state
+          in: query
+          description: Full name of state.
+          schema:
+            type: string
+            format: string
+        - name: country
+          in: query
+          description: Country Code (2 letter).
+          schema:
+            type: string
+            format: string
+        - name: days
+          in: query
+          description: Number of days to return. Default 16.
+          schema:
+            type: number
+            format: integer
+        - name: units
+          in: query
+          description: Convert to units. Default Metric
+          schema:
+            enum:
+              - S
+              - I
+            type: string
+            format: string
+        - name: lang
+          in: query
+          description: 'Language (Default: English)'
+          schema:
+            enum:
+              - ar
+              - az
+              - be
+              - bg
+              - bs
+              - ca
+              - cs
+              - de
+              - fi
+              - fr
+              - el
+              - es
+              - et
+              - hr
+              - hu
+              - id
+              - it
+              - is
+              - kw
+              - nb
+              - nl
+              - pl
+              - pt
+              - ro
+              - ru
+              - sk
+              - sl
+              - sr
+              - sv
+              - tr
+              - uk
+              - zh
+              - zh-tw
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: Wraps return in jsonp callback. Example - callback=func
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: A forecast object.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /forecast/energy:
+    get:
+      tags:
+        - Forecast Degree Day API
+      summary: Returns Energy Forecast API response - Given a single lat/lon.
+      description: 'Retrieve an 8 day forecast relevant to the Energy Sector (degree days, solar radiation, precipitation, wind).'
+      operationId: get-forecast-energy-lat-lat-lon-lon-key-key
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          required: true
+          schema:
+            type: number
+            format: double
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: threshold
+          in: query
+          description: 'Temperature threshold to use to calculate degree days (default 18 C) '
+          schema:
+            type: number
+            format: double
+        - name: units
+          in: query
+          description: Convert to units. Default Metric
+          schema:
+            enum:
+              - S
+              - I
+            type: string
+            format: string
+        - name: tp
+          in: query
+          description: 'Time period (default: daily)'
+          schema:
+            enum:
+              - hourly
+              - daily
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: 'Wraps return in jsonp callback. Example: callback=func'
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: An Energy Data Object.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /forecast/hourly:
+    get:
+      tags:
+        - 240 hour / hourly Forecast
+      summary: Returns an hourly forecast
+      description: 'Returns an hourly forecast, where each point represents a one hour period. Every point has a datetime string in the format "YYYY-MM-DD:HH". Time is UTC.'
+      operationId: get-forecast-hourly-key-key
+      parameters:
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: city
+          in: query
+          description: 'City search.. Example - &city=Raleigh,NC or &city=Berlin,DE or city=Paris&country=FR'
+          schema:
+            type: string
+            format: string
+        - name: city_id
+          in: query
+          description: 'City ID. Example: 4487042'
+          schema:
+            type: integer
+            format: integer
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: postal_code
+          in: query
+          description: 'Postal Code. Example: 28546'
+          schema:
+            type: integer
+            format: integer
+        - name: state
+          in: query
+          description: Full name of state.
+          schema:
+            type: string
+            format: string
+        - name: country
+          in: query
+          description: Country Code (2 letter).
+          schema:
+            type: string
+            format: string
+        - name: units
+          in: query
+          description: Convert to units. Default Metric
+          schema:
+            enum:
+              - S
+              - I
+            type: string
+            format: string
+        - name: lang
+          in: query
+          description: 'Language (Default: English)'
+          schema:
+            enum:
+              - ar
+              - az
+              - be
+              - bg
+              - bs
+              - ca
+              - cs
+              - de
+              - fi
+              - fr
+              - el
+              - es
+              - et
+              - hr
+              - hu
+              - id
+              - it
+              - is
+              - kw
+              - nb
+              - nl
+              - pl
+              - pt
+              - ro
+              - ru
+              - sk
+              - sl
+              - sr
+              - sv
+              - tr
+              - uk
+              - zh
+              - zh-tw
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: 'Wraps return in jsonp callback. Example: callback=func'
+          schema:
+            type: string
+            format: string
+        - name: hours
+          in: query
+          description: Number of hours to return.
+          schema:
+            type: integer
+            format: integer
+      responses:
+        '200':
+          description: A forecast object.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /history/airquality:
+    get:
+      tags:
+        - Historical Air Quality
+      summary: Returns 72 hours of historical air quality conditions
+      description: Returns historical air quality conditions.
+      operationId: get-history-airquality-key-key
+      parameters:
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: city
+          in: query
+          description: 'City search.. Example - &city=Raleigh,NC or &city=Berlin,DE or city=Paris&country=FR'
+          schema:
+            type: string
+            format: string
+        - name: city_id
+          in: query
+          description: City ID.
+          schema:
+            type: number
+            format: double
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: postal_code
+          in: query
+          description: 'Postal Code. Example: 28546'
+          schema:
+            type: integer
+            format: integer
+        - name: state
+          in: query
+          description: Full name of state.
+          schema:
+            type: string
+            format: string
+        - name: country
+          in: query
+          description: Country Code (2 letter).
+          schema:
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: 'Wraps return in jsonp callback. Example: callback=func'
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: Historical air quality conditions
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /history/daily:
+    get:
+      tags:
+        - Daily Historical Weather Data
+      summary: Returns Historical Observations - Daily
+      description: 'Returns Historical Observations - Given a city in the format of City,ST or City. The state, and country parameters can be provided to make the search more accurate. **(LIMIT 1 year per request)**'
+      operationId: get-history-daily-start_date-start_date-end_date-end_date-key-key
+      parameters:
+        - name: start_date
+          in: query
+          description: Start Date (YYYY-MM-DD or YYYY-MM-DD:HH).
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: end_date
+          in: query
+          description: End Date (YYYY-MM-DD or YYYY-MM-DD:HH).
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: city
+          in: query
+          description: 'City search.. Example - &city=Raleigh,NC or &city=Berlin,DE or city=Paris&country=FR'
+          schema:
+            type: string
+            format: string
+        - name: city_id
+          in: query
+          description: 'City ID. Example: 4487042'
+          schema:
+            type: integer
+            format: integer
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: postal_code
+          in: query
+          description: 'Postal Code. Example: 28546'
+          schema:
+            type: integer
+            format: integer
+        - name: station
+          in: query
+          description: Station ID.
+          schema:
+            type: string
+            format: string
+        - name: state
+          in: query
+          description: Full name of state.
+          schema:
+            type: string
+            format: string
+        - name: country
+          in: query
+          description: Country Code (2 letter).
+          schema:
+            type: string
+            format: string
+        - name: units
+          in: query
+          description: Convert to units. Default Metric
+          schema:
+            enum:
+              - S
+              - I
+            type: string
+            format: string
+        - name: lang
+          in: query
+          description: 'Language (Default: English)'
+          schema:
+            enum:
+              - ar
+              - az
+              - be
+              - bg
+              - bs
+              - ca
+              - cs
+              - de
+              - fi
+              - fr
+              - el
+              - es
+              - et
+              - hr
+              - hu
+              - id
+              - it
+              - is
+              - kw
+              - nb
+              - nl
+              - pl
+              - pt
+              - ro
+              - ru
+              - sk
+              - sl
+              - sr
+              - sv
+              - tr
+              - uk
+              - zh
+              - zh-tw
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: 'Wraps return in jsonp callback. Example: callback=func'
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: An Historical Day Data Object.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /history/hourly:
+    get:
+      tags:
+        - Hourly Historical Weather Data
+      summary: Returns Historical Observations - Hourly
+      description: 'Returns Historical Observations - Given a city in the format of City,ST or City. The state, and country parameters can be provided to make the search more accurate.'
+      operationId: get-history-hourly-start_date-start_date-end_date-end_date-key-key
+      parameters:
+        - name: start_date
+          in: query
+          description: Start Date (YYYY-MM-DD or YYYY-MM-DD:HH).
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: end_date
+          in: query
+          description: End Date (YYYY-MM-DD or YYYY-MM-DD:HH).
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: city
+          in: query
+          description: 'City search.. Example - &city=Raleigh,NC or &city=Berlin,DE or city=Paris&country=FR'
+          schema:
+            type: string
+            format: string
+        - name: city_id
+          in: query
+          description: 'City ID. Example: 4487042'
+          schema:
+            type: integer
+            format: integer
+        - name: lat
+          in: query
+          description: Latitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: lon
+          in: query
+          description: Longitude component of location.
+          schema:
+            type: number
+            format: double
+        - name: postal_code
+          in: query
+          description: 'Postal Code. Example: 28546'
+          schema:
+            type: integer
+            format: integer
+        - name: station
+          in: query
+          description: Station ID.
+          schema:
+            type: string
+            format: string
+        - name: state
+          in: query
+          description: Full name of state.
+          schema:
+            type: string
+            format: string
+        - name: country
+          in: query
+          description: Country Code (2 letter).
+          schema:
+            type: string
+            format: string
+        - name: units
+          in: query
+          description: Convert to units. Default Metric
+          schema:
+            enum:
+              - S
+              - I
+            type: string
+            format: string
+        - name: lang
+          in: query
+          description: 'Language (Default: English)'
+          schema:
+            enum:
+              - ar
+              - az
+              - be
+              - bg
+              - bs
+              - ca
+              - cs
+              - de
+              - fi
+              - fr
+              - el
+              - es
+              - et
+              - hr
+              - hu
+              - id
+              - it
+              - is
+              - kw
+              - nb
+              - nl
+              - pl
+              - pt
+              - ro
+              - ru
+              - sk
+              - sl
+              - sr
+              - sv
+              - tr
+              - uk
+              - zh
+              - zh-tw
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: 'Wraps return in jsonp callback. Example: callback=func'
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: An Historical Hourly Data Object.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+  /ip:
+    get:
+      tags:
+        - Current Weather Data
+      summary: Returns a current observation by IP Address
+      description: Returns a current observation by IP Address. The API will attempt to auto-detect your location based on your request IP.
+      operationId: get-ip-key-key
+      parameters:
+        - name: key
+          in: query
+          description: Your registered API key.
+          required: true
+          schema:
+            type: string
+            format: string
+        - name: include
+          in: query
+          description: Include 1 hour - minutely forecast in the response
+          schema:
+            enum:
+              - minutely
+            type: string
+            format: string
+        - name: marine
+          in: query
+          description: 'Marine stations only (buoys, oil platforms, etc)'
+          schema:
+            enum:
+              - t
+            type: string
+            format: string
+        - name: units
+          in: query
+          description: Convert to units. Default Metric
+          schema:
+            enum:
+              - S
+              - I
+            type: string
+            format: string
+        - name: lang
+          in: query
+          description: 'Language (Default: English)'
+          schema:
+            enum:
+              - ar
+              - az
+              - be
+              - bg
+              - bs
+              - ca
+              - cs
+              - de
+              - fi
+              - fr
+              - el
+              - es
+              - et
+              - hr
+              - hu
+              - id
+              - it
+              - is
+              - kw
+              - nb
+              - nl
+              - pl
+              - pt
+              - ro
+              - ru
+              - sk
+              - sl
+              - sr
+              - sv
+              - tr
+              - uk
+              - zh
+              - zh-tw
+            type: string
+            format: string
+        - name: callback
+          in: query
+          description: 'Wraps return in jsonp callback. Example: callback=func'
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: An Observation Group object.
+          content:
+            application/json: { }
+        '400':
+          description: No Data.
+          content:
+            application/json: { }
+        '500':
+          description: No Data.
+          content:
+            application/json: { }
+components:
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

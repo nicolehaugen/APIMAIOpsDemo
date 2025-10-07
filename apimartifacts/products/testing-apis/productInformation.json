@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Testing APIs",
+    "description": "APIs used for testing APIM functionality",
+    "approvalRequired": true,
+    "state": "published",
+    "subscriptionRequired": true
+  }
+}

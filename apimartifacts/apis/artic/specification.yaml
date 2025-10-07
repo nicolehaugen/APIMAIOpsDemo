@@ -1,0 +1,514 @@
+openapi: 3.0.1
+info:
+  title: Art Institute of Chicago API
+  description: An API for an aggregator of Art Institute of Chicago public data.
+  termsOfService: https://www.artic.edu/terms/terms-and-conditions
+  contact:
+    email: engineering@artic.edu
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/artic-api
+paths:
+  /artworks:
+    get:
+      summary: Get Artworks
+      description: A list of all artworks sorted by last updated date in descending order.
+      operationId: getArtworks
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Artwork'
+              example:
+                data:
+                  - id: string
+                    title: string
+                    artist_display: string
+                    place_of_origin: string
+                    date_display: string
+                    medium_display: string
+                    dimensions: string
+                    credit_line: string
+                    image_id: string
+                    is_on_view: true
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+  /artworks/search:
+    get:
+      summary: Search Artworks
+      description: Search artworks data in the aggregator. Artworks in the groups of essentials are boosted so they'll show up higher in results.
+      operationId: searchArtworks
+      parameters:
+        - name: q
+          in: query
+          description: Search query
+          schema:
+            type: string
+        - name: query
+          in: query
+          description: Full Elasticsearch query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: Sort by field
+          schema:
+            type: string
+        - name: from
+          in: query
+          description: Starting point for results
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Number of results to return
+          schema:
+            type: integer
+        - name: facets
+          in: query
+          description: A comma-separated list of 'count' aggregation facets to include in the results
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SearchResult'
+              example:
+                data:
+                  - id: string
+                    title: string
+                    api_model: string
+                    api_link: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+  '/artworks/{id}':
+    get:
+      summary: Get Artwork by ID
+      description: Get a specific artwork by its ID
+      operationId: getArtworkById
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the artwork
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Artwork'
+              example:
+                data:
+                  id: string
+                  title: string
+                  artist_display: string
+                  place_of_origin: string
+                  date_display: string
+                  medium_display: string
+                  dimensions: string
+                  credit_line: string
+                  image_id: string
+                  is_on_view: true
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+  /exhibitions:
+    get:
+      summary: Get Exhibitions
+      description: A list of all exhibitions sorted by last updated date in descending order.
+      operationId: getExhibitions
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Exhibition'
+              example:
+                data:
+                  - id: string
+                    title: string
+                    short_description: string
+                    web_url: string
+                    image_url: string
+                    status: string
+                    aic_start_at: string
+                    aic_end_at: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+  '/exhibitions/{id}':
+    get:
+      summary: Get Exhibition by ID
+      description: Get a specific exhibition by its ID
+      operationId: getExhibitionById
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the exhibition
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Exhibition'
+              example:
+                data:
+                  id: string
+                  title: string
+                  short_description: string
+                  web_url: string
+                  image_url: string
+                  status: string
+                  aic_start_at: string
+                  aic_end_at: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+  /galleries:
+    get:
+      summary: Get Galleries
+      description: A list of all galleries sorted by last updated date in descending order.
+      operationId: getGalleries
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Gallery'
+              example:
+                data:
+                  - id: string
+                    title: string
+                    latitude: 0
+                    longitude: 0
+                    is_closed: true
+                    number: string
+                    floor: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+  '/galleries/{id}':
+    get:
+      summary: Get Gallery by ID
+      description: Get a specific gallery by its ID
+      operationId: getGalleryById
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the gallery
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Gallery'
+              example:
+                data:
+                  id: string
+                  title: string
+                  latitude: 0
+                  longitude: 0
+                  is_closed: true
+                  number: string
+                  floor: string
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                status: 0
+                error: string
+                detail: string
+components:
+  schemas:
+    Error:
+      required:
+        - status
+        - error
+        - detail
+      type: object
+      properties:
+        status:
+          type: integer
+        error:
+          type: string
+        detail:
+          type: string
+    Artwork:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of this resource
+        title:
+          type: string
+          description: The name of this resource
+        artist_display:
+          type: string
+          description: 'Readable description of the creator of this work. Includes artist names, nationality and lifespan dates'
+        place_of_origin:
+          type: string
+          description: 'The location where the creation, design, or production of the work took place'
+        date_display:
+          type: string
+          description: 'Readable, free-text description of the period of time associated with the creation of this work'
+        medium_display:
+          type: string
+          description: The substances or materials used in the creation of a work
+        dimensions:
+          type: string
+          description: 'The size, shape, scale, and dimensions of the work'
+        credit_line:
+          type: string
+          description: Brief statement indicating how the work came into the collection
+        image_id:
+          type: string
+          description: Unique identifier of the preferred image to use to represent this work
+        is_on_view:
+          type: boolean
+          description: Whether the work is on display
+    Exhibition:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of this resource
+        title:
+          type: string
+          description: The name of this resource
+        short_description:
+          type: string
+          description: Brief explanation of what this exhibition is
+        web_url:
+          type: string
+          description: URL to this exhibition on our website
+        image_url:
+          type: string
+          description: URL to the hero image from the website
+        status:
+          type: string
+          description: Whether the exhibition is open or closed
+        aic_start_at:
+          type: string
+          description: Date the exhibition opened at the Art Institute of Chicago
+          format: date-time
+        aic_end_at:
+          type: string
+          description: Date the exhibition closed at the Art Institute of Chicago
+          format: date-time
+    Gallery:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of this resource
+        title:
+          type: string
+          description: The name of this resource
+        latitude:
+          type: number
+          description: Latitude coordinate of the center of the room
+          format: double
+        longitude:
+          type: number
+          description: Longitude coordinate of the center of the room
+          format: double
+        is_closed:
+          type: boolean
+          description: Whether the gallery is currently closed
+        number:
+          type: string
+          description: The gallery's room number
+        floor:
+          type: string
+          description: 'The level the gallery is on, e.g., 1, 2, 3, or LL'
+    SearchResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of this resource
+        title:
+          type: string
+          description: The name of this resource
+        api_model:
+          type: string
+          description: REST API resource type or endpoint
+        api_link:
+          type: string
+          description: REST API link for this resource
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

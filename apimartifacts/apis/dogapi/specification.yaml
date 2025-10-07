@@ -1,0 +1,302 @@
+openapi: 3.0.1
+info:
+  title: Dogs API
+  description: 'A public, free API all about Dogs. Get random dog images and browse breeds.'
+  contact:
+    name: Dog CEO
+    url: https://dog.ceo/dog-api
+    email: contact@dog.ceo
+  version: '1.0'
+servers:
+  - url: https://staging-apim-demo.azure-api.net/dog-api
+paths:
+  /breeds/list/all:
+    get:
+      summary: List all dog breeds
+      description: Returns a list of all available dog breeds and sub-breeds
+      operationId: listAllBreeds
+      responses:
+        '200':
+          description: A list of all dog breeds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BreedListResponse'
+              example:
+                status: success
+                message:
+                  affenpinscher: [ ]
+                  bulldog:
+                    - boston
+                    - english
+                    - french
+                  hound:
+                    - afghan
+                    - basset
+                    - blood
+                    - english
+                    - ibizan
+                    - walker
+  /breeds/image/random:
+    get:
+      summary: Random dog image
+      description: Returns a random dog image from all breeds
+      operationId: getRandomImage
+      responses:
+        '200':
+          description: A random dog image URL
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+              example:
+                status: success
+                message: https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+  '/breeds/image/random/{count}':
+    get:
+      summary: Multiple random dog images
+      description: Returns multiple random dog images from all breeds
+      operationId: getMultipleRandomImages
+      parameters:
+        - name: count
+          in: path
+          description: Number of random images to return (max 50)
+          required: true
+          schema:
+            maximum: 50.0
+            minimum: 1.0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Multiple random dog image URLs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiImageResponse'
+              example:
+                status: success
+                message:
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+                  - https://images.dog.ceo/breeds/hound-basset/n02088238_13110.jpg
+                  - https://images.dog.ceo/breeds/hound-blood/n02088466_7891.jpg
+  '/breed/{breed}/images':
+    get:
+      summary: Get all breed images
+      description: Returns all images from a specific breed
+      operationId: getBreedImages
+      parameters:
+        - name: breed
+          in: path
+          description: The breed name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: All images for a breed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllBreedImagesResponse'
+              example:
+                status: success
+                message:
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_1007.jpg
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_1023.jpg
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_10263.jpg
+  '/breed/{breed}/images/random':
+    get:
+      summary: Random breed image
+      description: Returns a random image from a specific breed
+      operationId: getRandomBreedImage
+      parameters:
+        - name: breed
+          in: path
+          description: The breed name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A random dog image URL for a breed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+              example:
+                status: success
+                message: https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+  '/breed/{breed}/images/random/{count}':
+    get:
+      summary: Multiple random breed images
+      description: Returns multiple random images from a specific breed
+      operationId: getMultipleRandomBreedImages
+      parameters:
+        - name: breed
+          in: path
+          description: The breed name
+          required: true
+          schema:
+            type: string
+        - name: count
+          in: path
+          description: Number of random images to return
+          required: true
+          schema:
+            maximum: 50.0
+            minimum: 1.0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Multiple random dog image URLs for a breed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiImageResponse'
+              example:
+                status: success
+                message:
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+                  - https://images.dog.ceo/breeds/hound-basset/n02088238_13110.jpg
+                  - https://images.dog.ceo/breeds/hound-blood/n02088466_7891.jpg
+  '/breed/{breed}/{subBreed}/images':
+    get:
+      summary: Get all sub-breed images
+      description: Returns all images from a specific sub-breed
+      operationId: getSubBreedImages
+      parameters:
+        - name: breed
+          in: path
+          description: The breed name
+          required: true
+          schema:
+            type: string
+        - name: subBreed
+          in: path
+          description: The sub-breed name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: All images for a sub-breed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllBreedImagesResponse'
+              example:
+                status: success
+                message:
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_1007.jpg
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_1023.jpg
+                  - https://images.dog.ceo/breeds/hound-afghan/n02088094_10263.jpg
+  '/breed/{breed}/{subBreed}/images/random':
+    get:
+      summary: Random sub-breed image
+      description: Returns a random image from a specific sub-breed
+      operationId: getRandomSubBreedImage
+      parameters:
+        - name: breed
+          in: path
+          description: The breed name
+          required: true
+          schema:
+            type: string
+        - name: subBreed
+          in: path
+          description: The sub-breed name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A random dog image URL for a sub-breed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+              example:
+                status: success
+                message: https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+components:
+  schemas:
+    BreedListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          example:
+            affenpinscher: [ ]
+            bulldog:
+              - boston
+              - english
+              - french
+            hound:
+              - afghan
+              - basset
+              - blood
+              - english
+              - ibizan
+              - walker
+    ImageResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+    MultiImageResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: array
+          items:
+            type: string
+          example:
+            - https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+            - https://images.dog.ceo/breeds/hound-basset/n02088238_13110.jpg
+            - https://images.dog.ceo/breeds/hound-blood/n02088466_7891.jpg
+    AllBreedImagesResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: array
+          items:
+            type: string
+          example:
+            - https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg
+            - https://images.dog.ceo/breeds/hound-afghan/n02088094_1007.jpg
+            - https://images.dog.ceo/breeds/hound-afghan/n02088094_1023.jpg
+            - https://images.dog.ceo/breeds/hound-afghan/n02088094_10263.jpg
+  securitySchemes:
+    apiKeyHeader:
+      type: apiKey
+      name: Ocp-Apim-Subscription-Key
+      in: header
+    apiKeyQuery:
+      type: apiKey
+      name: subscription-key
+      in: query
+security:
+  - { }
+  - apiKeyHeader: [ ]
+  - apiKeyQuery: [ ]

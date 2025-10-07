@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Just For Fun APIs",
+    "description": "APIs that are just for fun",
+    "approvalRequired": false,
+    "state": "published",
+    "subscriptionRequired": true
+  }
+}
